@@ -35,15 +35,18 @@ public class Main {
 
         Book book3 = new Book("Advanced History", "432435567", 456.99, "Jacob Luck", " Mack Paul", "Albert Henry");
 
+        Book book4 = new Book("The Great Gatsby", "9780141182636", 49.99, "F. Scott Fitzgerald");
+
         System.out.println(book1.toString());
         System.out.println(book2.toString());
         System.out.println(book3.toString());
+        System.out.println(book4.toString());
 
 
 
         System.out.println("");
-        double totalprice = book1.getPrice() + book2.getPrice() + book3.getPrice();
-        System.out.println("Total price: " + totalprice);
+        double totalPrice = book1.getPrice() + book2.getPrice() + book3.getPrice() + book4.getPrice();
+        System.out.println("Total price: " + totalPrice);
 
     }
 }
