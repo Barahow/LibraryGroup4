@@ -31,9 +31,9 @@ public class Main {
         //Book project stuff
         Book book1 = new Book ("Path Finder", "23465789", 389.99, "Mac author");
 
-        Book book2 = new Book ("Modern Africa","234165789", 249.99, "Henry Adams", "Jacob luck" );
+        Book book2 = new Book ("Modern Africa","234165789", 457.99, "Henry Adams", "Jacob luck" );
 
-        Book book3 = new Book("Advanced History", "432435567", 199.99, "Jacob Luck", " Mack Paul", "Albert Henry");
+        Book book3 = new Book("Advanced History", "432435567", 456.99, "Jacob Luck", " Mack Paul", "Albert Henry");
 
         System.out.println(book1.toString());
         System.out.println(book2.toString());
