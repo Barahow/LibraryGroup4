@@ -40,7 +40,7 @@ public class ControllerAddBook {
         String BookAuthor = author.getText();
         String BookISBN = isbn.getText();
 
-
+             // if you don't write on all colums you get an error message
         if (BookID.isEmpty() || BookTitle.isEmpty() || BookAuthor.isEmpty() || BookISBN.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -60,6 +60,8 @@ public class ControllerAddBook {
 //              + " ISBN varchar(200), \n"
 //              + " availablilty boolean default true ,"
 //              + ')');
+
+        //this are the database queries.
         String qu = "INSERT INTO book VALUES ("+
                 "'" + BookID + "',"+
                 "'" + BookTitle + "'," +
@@ -68,6 +70,7 @@ public class ControllerAddBook {
                 "" +  true + "" +
                 ")";
         System.out.println(qu);
+
         if (databasehandler.executeAction(qu)){
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -43,6 +43,7 @@ public class ControllerBookList {
     }
 
     private void LoadData() {
+
         DbUtil handler = new DbUtil();
         String qu = "SELECT * FROM book";
         ResultSet resultSet = handler.ExecuteQuery(qu);
@@ -66,7 +67,7 @@ public class ControllerBookList {
 
     }
 
-
+  // this method is used to set my javafx columns
     private void initcolum() {
         titlecol.setCellValueFactory(new PropertyValueFactory<>("Title"));
       idcol.setCellValueFactory(new PropertyValueFactory<>("ID"));

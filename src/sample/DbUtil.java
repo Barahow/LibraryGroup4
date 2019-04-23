@@ -22,6 +22,7 @@ public class DbUtil {
 
     public DbUtil() {
         Properties  properties = new Properties();
+        //this will point to the database url in my package
         try(InputStream in = this.getClass().getClassLoader().getResourceAsStream("sample/properties/dbInfo.properties")){
             properties.load(in);
             DB_URL = properties.getProperty("dbUrl");
@@ -55,7 +56,7 @@ public class DbUtil {
         return conn;
     }
 
-
+   // this is method is to setup my book table to fetch
     public void setuptable() {
         String Table_Name = "book"; //we could return this...
 
@@ -127,7 +128,7 @@ public class DbUtil {
 
 
     }
-
+      //this method is for executing queries.
     public ResultSet ExecuteQuery(String query) {
         ResultSet results;
         try {
