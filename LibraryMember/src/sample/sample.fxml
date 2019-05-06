@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.addMember">
+   <children>
+      <VBox layoutY="14.0" prefHeight="35.0" prefWidth="620.0">
+         <children>
+            <TextField fx:id="memberid" prefHeight="46.0" prefWidth="620.0" text="Member library ID" />
+         </children>
+      </VBox>
+      <TextField fx:id="lastName" layoutY="147.0" prefHeight="48.0" prefWidth="613.0" text="Last Name" />
+      <TextField fx:id="firstName" layoutY="99.0" prefHeight="48.0" prefWidth="613.0" text="First Name" />
+      <TextField fx:id="memberssn" layoutY="56.0" prefHeight="48.0" prefWidth="620.0" text="Member SSN" />
+      <Button fx:id="addmemberbtn" layoutX="36.0" layoutY="228.0" mnemonicParsing="false" text="Add member" />
+      <Button fx:id="canelBTN" layoutX="36.0" layoutY="269.0" mnemonicParsing="false" text="cancel" />
+   </children>
+</AnchorPane>
