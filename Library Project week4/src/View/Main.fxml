@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="430.0" prefWidth="700.0" style="-fx-backround-colorr: #000000;&#10;&#10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.Controller">
+  <children>
+    <AnchorPane layoutX="191.0" layoutY="7.0" prefHeight="423.0" prefWidth="509.0" style="-fx-background-color: #2F4F4F" />
+    <AnchorPane layoutX="0.0" layoutY="14.0" prefHeight="423.0" prefWidth="178.0" style="-fx-background-color: #2F4F4F&#10;&#10;">
+      <children>
+        <Button cancelButton="false" contentDisplay="LEFT" defaultButton="false" graphicTextGap="40.0" layoutX="0.0" layoutY="109.0" minHeight="57.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="171.0" text="BookView" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" wrapText="false">
+          <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0" fx:id="x2">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <javafx.scene.effect.Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                  <color>
+                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x3" />
+                  </color>
+                </javafx.scene.effect.Light.Spot>
+              </light>
+            </Lighting>
+          </effect>
+          <font>
+            <Font size="12.0" fx:id="x1" />
+          </font>
+          <graphic>
+            <ImageView fitHeight="37.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../Icons/search_book-512.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <Button contentDisplay="LEFT" effect="$x2" font="$x1" graphicTextGap="40.0" layoutX="0.0" layoutY="191.0" minHeight="49.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="171.0" text="AddMember" textAlignment="LEFT" textOverrun="ELLIPSIS">
+          <graphic>
+            <ImageView fitHeight="34.0" fitWidth="34.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../Icons/633_-_Create_User-512.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <Button contentDisplay="LEFT" effect="$x2" font="$x1" graphicTextGap="40.0" layoutX="1.0" layoutY="271.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="171.0" text="MemberView" textAlignment="LEFT" textOverrun="ELLIPSIS">
+          <graphic>
+            <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../Icons/family-512.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <Button contentDisplay="LEFT" effect="$x2" font="$x1" graphicTextGap="40.0" layoutX="1.0" layoutY="27.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="171.0" text="AddBook" textAlignment="LEFT" textFill="#002929" textOverrun="ELLIPSIS">
+          <graphic>
+            <ImageView cache="true" cacheHint="DEFAULT" depthTest="INHERIT" disable="false" fitHeight="34.0" fitWidth="34.0" focusTraversable="false" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" visible="true">
+              <image>
+                <Image url="@../Icons/family-512.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <MenuBar layoutX="1.0" minHeight="21.999900000002526" prefHeight="34.0" prefWidth="699.0" AnchorPane.topAnchor="-7.0">
+          <menus>
+            <Menu mnemonicParsing="false" text="File">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Close" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Delete" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+        <TabPane layoutX="194.0" layoutY="14.0" prefHeight="189.0" prefWidth="509.0" tabClosingPolicy="UNAVAILABLE">
+          <tabs>
+            <Tab text="Issue Book">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="347.0" prefWidth="509.0">
+                  <children>
+                    <VBox layoutX="0.0" layoutY="0.0" prefHeight="150.0" prefWidth="509.0">
+                      <children>
+                        <HBox alignment="CENTER" prefHeight="301.0" prefWidth="509.0">
+                          <children>
+                            <TextField alignment="CENTER" prefHeight="45.0" prefWidth="162.0" text="Enter book ID:" />
+                            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="309.0">
+                              <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title" textAlignment="RIGHT" />
+                                <Text scaleX="1.0" scaleY="1.1026875305922663" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Name" textAlignment="RIGHT" />
+                              </children>
+                            </VBox>
+                          </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="301.0" prefWidth="509.0">
+                          <children>
+                            <TextField alignment="CENTER" prefHeight="45.0" prefWidth="162.0" text="Enter SSN" />
+                            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="309.0">
+                              <children>
+                                <Text scaleX="1.0" scaleY="1.1026967082721488" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Name" textAlignment="RIGHT" />
+                                <Text scaleX="1.0" scaleY="1.1026875305922663" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" textAlignment="RIGHT" />
+                              </children>
+                            </VBox>
+                          </children>
+                        </HBox>
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Renew Book">
+              <content>
+                <AnchorPane id="AnchorPane" prefHeight="354.0" />
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+        <Button contentDisplay="LEFT" font="$x1" graphicTextGap="40.0" layoutX="1.0" layoutY="352.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="171.0" text="Settings" textAlignment="LEFT" textOverrun="ELLIPSIS">
+          <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <javafx.scene.effect.Light.Spot color="$x3" pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0" />
+              </light>
+            </Lighting>
+          </effect>
+          <graphic>
+            <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../Icons/settings.png" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+      </children>
+      <effect>
+        <DropShadow />
+      </effect>
+    </AnchorPane>
+  </children>
+</AnchorPane>
