@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="rootpane" prefHeight="452.00016621094255" prefWidth="720.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.ControllerBookCategory">
+  <children>
+    <TableView fx:id="tableview" layoutX="407.0" layoutY="0.0" prefHeight="452.0001220703125" prefWidth="300.0">
+      <columns>
+        <TableColumn prefWidth="75.0" text="TypeID" fx:id="typeidcol" />
+        <TableColumn prefWidth="75.0" text="Title" fx:id="titlecol" />
+        <TableColumn prefWidth="75.0" text="Author" fx:id="authorcol" />
+        <TableColumn prefWidth="75.0" text="Category" fx:id="categorycol" />
+      </columns>
+    </TableView>
+    <TextField id="txtsearch" fx:id="booktype" layoutX="21.0" layoutY="196.0" onAction="#SearchBookCategory" prefHeight="30.0" prefWidth="200.0" promptText="Enter Book Category" text="" />
+  </children>
+</AnchorPane>
