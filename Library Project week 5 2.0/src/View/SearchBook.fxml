@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="rootpane" prefHeight="452.00016621094255" prefWidth="720.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.ControllerSearchBook">
+  <children>
+    <TextField id="txtsearch" fx:id="BookTitle" layoutX="21.0" layoutY="196.0" onAction="#SearchBook" prefHeight="30.0" prefWidth="200.0" promptText="Enter Book Title" text="" />
+    <ListView fx:id="listviewsearch" layoutX="291.0" layoutY="0.0" prefHeight="453.0" prefWidth="430.0" />
+  </children>
+</AnchorPane>
