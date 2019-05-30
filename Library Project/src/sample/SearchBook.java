@@ -10,7 +10,7 @@ public class SearchBook extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource( "../View/SearchBook.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/SearchBook.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

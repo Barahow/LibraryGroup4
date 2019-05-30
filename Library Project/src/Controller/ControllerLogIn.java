@@ -1,24 +1,17 @@
 package Controller;
 
-import Model.Account;
-import Model.Member;
+import model.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import sample.DbUtil;
+import sample.DBConnection;
 import sample.Main;
 import sample.SceneData;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ControllerLogIn {
@@ -36,7 +29,7 @@ public class ControllerLogIn {
     private TextField Email;
 
 
-    DbUtil dbhanlder;
+    DBConnection dbhanlder;
 
 
 
@@ -59,7 +52,7 @@ public class ControllerLogIn {
 
     private void tryLogin(String logInEmail, String loginPassword) {
 
-        ArrayList<Account> member = DbUtil.getInstance().getAccounts(logInEmail,loginPassword);
+        ArrayList<Account> member = DBConnection.getInstance().getAccounts(logInEmail,loginPassword);
 
         if (member.size() == 0) {
 
@@ -80,9 +73,5 @@ public class ControllerLogIn {
 
     public void registerButtonPressed() {
         Main.LoadRegisterView();
-    }
-
-    public void goBackButton() {
-        Main.LoadMainView();
     }
 }

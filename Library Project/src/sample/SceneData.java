@@ -1,13 +1,20 @@
 package sample;
 
-import Model.Account;
-import Model.Member;
+import model.Account;
 
-
+/*
+ * This class is for sharing data between scenes.
+ * - The LoginController will store the logged in customer.
+ * - The CustomerController can then fetch this customer and show information for it.
+ *
+ * It's possible to add more data in this singleton class, if we have more scenes and more data to share.
+ * Just add more fields and setters/getters.
+ *
+ */
 public class SceneData {
 
 
-    //This is the data we want to share between LoginView and and memberView
+    //This is the data we want to share between LoginView and and CustomerView
     private Account loggedInMember;
 
     //Singleton pattern:

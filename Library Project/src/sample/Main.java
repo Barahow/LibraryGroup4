@@ -1,21 +1,17 @@
 package sample;
 
-import Model.Account;
-import Model.Member;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Main extends Application {
 
-    DbUtil dbhandler;
+    DBConnection dbhandler;
 
     private static Stage primaryStage;
 
@@ -23,8 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Library System");
-        LoadMainView();
-        //loadLoginView();
+        loadView("../view/StartMenu");
     }
 
     public static void main(String[] args) {
@@ -44,43 +39,38 @@ public class Main extends Application {
         }
     }
 
-    public static void LoadMainView() {
-      loadView("/View/MainPage");
-
-    }
-
     public static void loadLoginView() {
-        loadView("../View/LogInView");
+        loadView("../view/LogInView");
     }
 
     public static void loadLibraryView() {
 
 
-        DbUtil dbhandler = new DbUtil();
+        DBConnection dbhandler = new DBConnection();
 
         Boolean Membertype = true;
-        String qu = "SELECT membertype FROM  member where membertype = '"+ Membertype+"'";
+        String qu = "SELECT membertype FROM  member where membertype = " + Membertype + "";
 
         System.out.println(qu);
-
+        assert dbhandler != null;
         ResultSet result = dbhandler.ExecuteQuery(qu);
 
         try {
             while (result.next()) {
                 //result.getInt("membertype");
-                      //if member type true
-                if (result.getBoolean("membertype")){
-                    loadView("../View/MenuMember");
 
-                    // if member type false
-                }else if (!result.getBoolean("membertype"))
-                    loadView("../View/MainMenu");
+                if (result.getBoolean("membertype")== true){
+                    loadView("../view/MainMenu");
+
+                    //loadView("../view/MenuMember");
+                }else if (result.getBoolean("membertype")== false)
+                    loadView("../view/MainMenu");
                 }
 
 
 
 
-             //  loadView(String.valueOf(result.getBoolean("membertype")? "../View/MenuMember" : "../View/MainMenu"));
+             //  loadView(String.valueOf(result.getBoolean("membertype")? "../view/MenuMember" : "../view/MainMenu"));
 
             } catch (SQLException e1) {
             e1.printStackTrace();
@@ -105,7 +95,7 @@ public class Main extends Application {
 
 
     public static void LoadRegisterView() {
-        loadView("../View/RegisterAccount");
+        loadView("../view/RegisterAccount");
 
     }
 }

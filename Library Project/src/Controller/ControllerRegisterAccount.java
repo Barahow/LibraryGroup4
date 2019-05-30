@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Member;
+import model.Member;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,8 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import sample.DbUtil;
-import sample.Main;
+import sample.DBConnection;
 
 public class ControllerRegisterAccount {
     @FXML
@@ -30,11 +29,11 @@ public class ControllerRegisterAccount {
     @FXML
     private Button btncancel;
     Member member;
-    DbUtil databasehandler;
+    DBConnection databasehandler;
 
     public void initialize() {
 //
-        databasehandler = new DbUtil();
+        databasehandler = new DBConnection();
 
     }
 
@@ -87,9 +86,6 @@ public class ControllerRegisterAccount {
             stage.close();
 
 
-    }
-    public void goBackButton() {
-        Main.loadLoginView();
     }
 
 

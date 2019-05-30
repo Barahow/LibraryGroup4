@@ -1,29 +1,19 @@
 package Controller;
 
 
-import Model.Book;
-import Model.BookCategory;
+import javafx.event.ActionEvent;
+import model.Book;
+import model.BookCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import sample.DbUtil;
+import sample.DBConnection;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 public class ControllerBookCategory {
 
@@ -51,24 +41,24 @@ public class ControllerBookCategory {
     public void initialize() throws IOException {
         //anchorPane.setMaxSize();
 
-        DbUtil.getInstance();
+        DBConnection.getInstance();
         initcolum();
 
 
     }
 
 
-    boolean condi;
-    boolean brrcon = false;
-    int count = 0;
-
-    DbUtil dbhandler = new DbUtil();
 
 
-    public void SearchBookCategory() throws IOException {
+    DBConnection dbhandler = new DBConnection();
+
+
+    public void bookTypePressed(ActionEvent event) throws IOException {
+        Button button = (Button)event.getSource();
+        String type = button.getText();
         // clearBookSearch();
         ObservableList<BookCategory> List = FXCollections.observableArrayList();
-        int typeid= Integer.parseInt(booktype.getText());
+        int typeid= Integer.parseInt(type);
         String qu =  "SELECT typeid, title, author, booktype FROM bookcategory join book where bookcategory_typeid = typeid and typeid = '" + typeid + "'";
 
 //                "SELECT * FROM bookcategory WHERE booketype = '" + BookType + "'";

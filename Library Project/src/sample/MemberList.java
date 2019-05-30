@@ -10,7 +10,7 @@ public class MemberList extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource( "../View/Member_List.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/Member_List.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

@@ -1,10 +1,6 @@
-package Model;
+package model;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class BookIssue {

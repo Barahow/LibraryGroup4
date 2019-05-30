@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,16 +10,16 @@ public class Member {
     private SimpleStringProperty address;
     private SimpleStringProperty phoneNumber;
     private SimpleStringProperty email;
-    private SimpleBooleanProperty membertype;
+    private SimpleBooleanProperty memberType;
 
 
-    public Member(String SSN, String name, String address, String phoneNumber, String email, boolean membertype) {
+    public Member(String SSN, String name, String address, String phoneNumber, String email, boolean memberType) {
         this.SSN = new SimpleStringProperty(SSN);
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(address);
         this.phoneNumber = new SimpleStringProperty(phoneNumber);
         this.email = new SimpleStringProperty(email);
-        this.membertype = new SimpleBooleanProperty(membertype);
+        this.memberType = new SimpleBooleanProperty(memberType);
     }
 
 
@@ -58,8 +58,8 @@ public class Member {
 
 
 
-    public boolean getMembertype() {
-        return membertype.get();
+    public boolean getMemberType() {
+        return memberType.get();
     }
 
     public void setAddress(String address) {

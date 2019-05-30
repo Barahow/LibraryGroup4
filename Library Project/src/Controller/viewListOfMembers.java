@@ -1,21 +1,17 @@
 package Controller;
 
-import Model.Book;
-import Model.Member;
+import model.Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import sample.DbUtil;
+import sample.DBConnection;
 
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class viewListOfMembers {
 
@@ -76,7 +72,7 @@ public class viewListOfMembers {
 
     private void initData() {
 
-        DbUtil handler = new DbUtil();
+        DBConnection handler = new DBConnection();
         String qu = "SELECT * FROM member";
         ResultSet resultSet = handler.ExecuteQuery(qu);
         try {
@@ -113,7 +109,7 @@ public class viewListOfMembers {
         addresscol.setCellValueFactory(new PropertyValueFactory<>("address"));
         Phonecol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        membertypecol.setCellValueFactory(new PropertyValueFactory<>("membertype"));
+        membertypecol.setCellValueFactory(new PropertyValueFactory<>("memberType"));
     }
 
     @FXML
@@ -136,7 +132,7 @@ public class viewListOfMembers {
         if (answer.get() == ButtonType.OK) {
             // if the anser is yes then the book will be deleted
             try {
-                Boolean result = DbUtil.getInstance().deletemember(selectmember);
+                Boolean result = DBConnection.getInstance().deletemember(selectmember);
                 if (result == true) {
                     alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setHeaderText(null);

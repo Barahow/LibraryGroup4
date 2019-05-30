@@ -10,7 +10,7 @@ public class BookCategory extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource( "../View/BookCategory.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/BookCategory.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -18,6 +18,6 @@ public class BookCategory extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+       launch(args);
     }
 }

@@ -1,29 +1,33 @@
 package Controller;
 
-import Model.Account;
-import Model.Member;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import model.Account;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.DbUtil;
+import sample.DBConnection;
 import sample.SceneData;
-
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Controller {
     private Account member;
-    DbUtil dbhandler;
-    public void initialize() {
+    DBConnection dbhandler;
+
+    public Controller(){
+
+    }
+
+    @FXML
+    private void initialize() {
 
         member = SceneData.getInstance().getLoggedInMember();
 //
 //
-        assert (member != null) : "Fatal error, member should  never be null here!";
+        assert (member != null) : "Fatal error, member shall never be null here!";
 
 /*
        Boolean Membertype = true;
@@ -63,12 +67,12 @@ public class Controller {
 
 
         //Find the account object for this customer.
-        ArrayList<Account> accounts = DbUtil.getInstance().getAccounts(member.getEmail(), member.getPassWord());
+        //ArrayList<Account> accounts = DBConnection.getInstance().getAccounts(member.getEmail(), member.getPassWord());
 //
-        if (accounts.size() > 0) {
+        //if (accounts.size() > 0) {
             // you should be able to change information in your settings such as email and password
 
-        }
+        //}
     }
 
 
@@ -89,47 +93,56 @@ public class Controller {
 
     // these methods loads the Main Menu
 
-    public void loadAddBook() {
-        loadMenu("../View/Addbook.fxml", "Add Book");
+    @FXML
+    private void loadAddBook() {
+        loadMenu("../view/Addbook.fxml", "Add Book");
 
     }
 
+    @FXML
     public void loadBookView() {
-        loadMenu("../View/Book_List.fxml", "Book List");
+        loadMenu("../view/Book_List.fxml", "Book List");
 
 
     }
 
     public void loadAddMember() {
-        loadMenu("../View/AddMember.fxml", "Add Member");
+        loadMenu("../view/AddMember.fxml", "Add Member");
 
     }
 
     public void loadMemberView() {
-        loadMenu("../View/Member_List.fxml", "Member List");
+        loadMenu("../view/Member_List.fxml", "Member List");
 
     }
 
     public void loadSettings() {
-        loadMenu("../View/Settings.fxml", "Settings");
+        loadMenu("../view/Settings.fxml", "Settings");
 
     }
 
     public void loadSearchBook() {
-        loadMenu("../View/SearchBook.fxml", "Search Book");
+        loadMenu("../view/SearchBook.fxml", "Search Book");
+    }
 
+    public void loadSearchBookCatalog() {
+        loadMenu("../view/search.fxml", "Search Catalog");
+    }
 
+    public void logIn() {
+        loadMenu("../view/signIn.fxml", "Log in");
     }
 
     public void  loadIssueBook() {
-        loadMenu("../View/IssueBook.fxml", "Issue Book");
+        loadMenu("../view/IssueBook.fxml", "Issue Book");
     }
 
     public void loadBookCatalog() {
-        loadMenu("../View/BookCategory.fxml", "Book Catalog");
+        loadMenu("../view/BookCategory.fxml", "Book Catalog");
 
     }
-    public void loadReturnBook() {
-        loadMenu("../View/ListOfIssues.fxml","Return Book");
+    public void loadListOfBookings() {
+        loadMenu("../view/ListOfBookings.fxml","List Of Bookings");
+
     }
 }

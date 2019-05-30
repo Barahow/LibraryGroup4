@@ -10,7 +10,7 @@ public class IssueBook extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource( "../View/IssueBook.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/IssueBook.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

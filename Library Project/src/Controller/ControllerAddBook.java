@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import sample.DbUtil;
+import sample.DBConnection;
 
 public class ControllerAddBook {
     @FXML
@@ -27,11 +27,11 @@ public class ControllerAddBook {
     @FXML
     private Button btncancel;
 
-    DbUtil databasehandler;
+    DBConnection databasehandler;
 
     public void initialize() {
 //
-        databasehandler = new DbUtil();
+        databasehandler = new DBConnection();
 
         ;
 

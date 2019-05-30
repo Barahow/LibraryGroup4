@@ -1,0 +1,16 @@
+#add{
+-fx-background-color:8E24AA;
+-fx-text-fill:white;
+}
+#add:hover{
+ -fx-background-color:4CAF50;
+ -fx-text-fill:white;
+ }
+ #cancel{
+ -fx-background-color:8E24AA;
+ -fx-text-fill:white;
+ }
+ #cancel:hover{
+  -fx-background-color:4CAF50;
+  -fx-text-fill:white;
+  }

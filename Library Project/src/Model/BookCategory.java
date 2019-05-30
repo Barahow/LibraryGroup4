@@ -1,51 +1,50 @@
-package Model;
+package model;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class BookCategory {
-    private final SimpleIntegerProperty TypeId;
-    private final SimpleStringProperty Title;
-    private final SimpleStringProperty Author;
-    private final SimpleStringProperty BookType;
+    private final SimpleIntegerProperty typeId;
+    private final SimpleStringProperty title;
+    private final SimpleStringProperty author;
+    private final SimpleStringProperty bookType;
 
 
 
 
 
     public String getBookType() {
-        return BookType.get();
+        return bookType.get();
     }
 
     public SimpleStringProperty bookTypeProperty() {
-        return BookType;
+        return bookType;
     }
 
     public BookCategory(int TypeId,String Title, String Author, String BookType) {
-        this.Title = new SimpleStringProperty(Title);
-        this.Author = new SimpleStringProperty(Author);
-        this.BookType = new SimpleStringProperty(BookType);
-        this.TypeId = new SimpleIntegerProperty(TypeId);
+        this.title = new SimpleStringProperty(Title);
+        this.author = new SimpleStringProperty(Author);
+        this.bookType = new SimpleStringProperty(BookType);
+        this.typeId = new SimpleIntegerProperty(TypeId);
 
     }
 
 
     public int getTypeId() {
-        return TypeId.get();
+        return typeId.get();
     }
 
     public SimpleIntegerProperty typeIdProperty() {
-        return TypeId;
+        return typeId;
     }
 
     public String getTitle() {
-        return Title.get();
+        return title.get();
     }
 
 
 public String getAuthor() {
-        return Author.get();
+        return author.get();
     }
 
 

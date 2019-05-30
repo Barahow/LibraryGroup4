@@ -1,29 +1,17 @@
 package Controller;
 
 
-import Model.Book;
-import Model.Member;
+import model.Book;
+import model.Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import sample.DbUtil;
+import sample.DBConnection;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Optional;
 
 public class ControllerIssueBook {
@@ -64,13 +52,13 @@ public class ControllerIssueBook {
     @FXML
     private TextField txtreturndate;
 
-    DbUtil dbhandler;
+    DBConnection dbhandler;
 
     public void initialize() throws IOException {
         //anchorPane.setMaxSize();
 
 
-        dbhandler = new DbUtil();
+        dbhandler = new DBConnection();
 
 
     }
@@ -80,7 +68,7 @@ public class ControllerIssueBook {
     boolean brrcon = false;
     int count = 0;
 
-//    DbUtil dbhandler = new DbUtil();
+//    DBConnection dbhandler = new DBConnection();
 
     ObservableList<Book> List = FXCollections.observableArrayList();
 
@@ -91,7 +79,7 @@ public class ControllerIssueBook {
         String MemberSSN = txtssn.getText();
         String DueDate = txtduedate.getText();
         String ReturnDate = txtreturndate.getText();
-        Timestamp IssueTime = null;
+        String IssueTime = null;
 
         // if you don't write on all colums you get an error message
         if (BookISBN.isEmpty() || MemberSSN.isEmpty() || DueDate.isEmpty() || ReturnDate.isEmpty()) {

@@ -1,23 +1,21 @@
 package Controller;
 
 
-import Model.Book;
-import Model.BookCategory;
-import Model.BookIssue;
-import Model.Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import sample.DbUtil;
-import sample.IssueBook;
+import model.Book;
+import model.BookIssue;
+import model.Member;
+import sample.DBConnection;
+
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 public class ControllerListOfIssues {
@@ -44,13 +42,13 @@ public class ControllerListOfIssues {
     ObservableList<Book> List = FXCollections.observableArrayList();
     private Member member;
 
-   DbUtil dbhandler;
+   DBConnection dbhandler;
     public void initialize() throws IOException {
         //anchorPane.setMaxSize();
         // Creat an obserable list of issue collection
 
 
-        DbUtil.getInstance();
+        DBConnection.getInstance();
         IssueBookList();
         initcolum();
 
@@ -61,7 +59,7 @@ public class ControllerListOfIssues {
     public void IssueBookList() throws IOException {
 
         ObservableList<BookIssue> List = FXCollections.observableArrayList();
-        DbUtil handler = new DbUtil();
+        DBConnection handler = new DBConnection();
         // String MemberSSN;
 
 
@@ -97,7 +95,7 @@ public class ControllerListOfIssues {
     }
 
     public void handleReturnBook() {
-   dbhandler = new DbUtil();
+   dbhandler = new DBConnection();
         BookIssue selectBook = tableview.getSelectionModel().getSelectedItem();
         BookIssue SelectedBookID = tableview.getSelectionModel().getSelectedItem();
         // If you havent selected a book to dleete you get an error

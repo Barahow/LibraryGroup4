@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootpane" prefHeight="452.00016621094255" prefWidth="720.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.ControllerBookCategory">
+<AnchorPane fx:id="rootpane" prefHeight="452.00016621094255" prefWidth="720.999977929685" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerBookCategory">
   <children>
     <TableView fx:id="tableview" layoutX="407.0" layoutY="0.0" prefHeight="452.0001220703125" prefWidth="300.0">
       <columns>
-        <TableColumn prefWidth="75.0" text="TypeID" fx:id="typeidcol" />
-        <TableColumn prefWidth="75.0" text="Title" fx:id="titlecol" />
-        <TableColumn prefWidth="75.0" text="Author" fx:id="authorcol" />
-        <TableColumn prefWidth="75.0" text="Category" fx:id="categorycol" />
+        <TableColumn fx:id="typeidcol" prefWidth="75.0" text="TypeID" />
+        <TableColumn fx:id="titlecol" prefWidth="75.0" text="Title" />
+        <TableColumn fx:id="authorcol" prefWidth="75.0" text="Author" />
+        <TableColumn fx:id="categorycol" prefWidth="75.0" text="Category" />
       </columns>
     </TableView>
-    <TextField id="txtsearch" fx:id="booktype" layoutX="21.0" layoutY="196.0" onAction="#SearchBookCategory" prefHeight="30.0" prefWidth="200.0" promptText="Enter Book Category" text="" />
+      <Button fx:id="Btnfantasy" layoutX="68.0" layoutY="2.0" mnemonicParsing="false" onAction="#bookTypePressed" text="1" />
+      <Button layoutX="68.0" layoutY="33.0" mnemonicParsing="false" onAction="#bookTypePressed" text="2" />
+      <Button layoutX="68.0" layoutY="66.0" mnemonicParsing="false" onAction="#bookTypePressed" text="3" />
+      <Button layoutX="68.0" layoutY="95.0" mnemonicParsing="false" onAction="#bookTypePressed" text="4" />
+      <Button layoutX="68.0" layoutY="123.0" mnemonicParsing="false" onAction="#bookTypePressed" text="5" />
+      <Text layoutX="21.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fantasy" />
+      <Text layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sci fI" />
+      <Text layoutX="20.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thriller" />
+      <Text layoutX="20.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horror" />
+      <Text layoutX="13.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Romance" />
   </children>
 </AnchorPane>
