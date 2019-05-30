@@ -1,127 +1,51 @@
 package Controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import model.Book;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import sample.DBConnection;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class ControllerEditBook implements Initializable {
 
-public class ControllerEditBook {
-    // Creat an obserable list of books collection
-    ObservableList<Book> List = FXCollections.observableArrayList();
+    @FXML private TextField titletxt;
+    @FXML private TextField catagorytxt;
+    @FXML private Label titleofbook;
+    @FXML private Label catagoryofbook;
+    @FXML private Button editbutton;
+    @FXML private Button closePage;
 
-    @FXML
-    private TextField title;
-    @FXML
-    private TextField booktype;
-    @FXML
-    private TextField author;
-    @FXML
-    private TextField isbn;
-    @FXML
-    private TextField isbnsearch;
+    DBConnection dbhandler;   // Database connection instance.
 
-
-    @FXML
-    private AnchorPane rootpane;
-    DBConnection dbhandler;
-
-    public void initialize() {
-
-
-
+    /**
+     * This method updates the book type.
+     * @param event
+     */
+    public void updateBooks(ActionEvent event){
+        String editTitle = titletxt.getText();
+        int editCatagory = Integer.parseInt(catagorytxt.getText());
+        dbhandler = new DBConnection();
+        dbhandler.updateBookCatagory(editTitle,editCatagory);
     }
 
-    public void editBook() {
+    /**
+     * THis method close the current window.
+     * @param event
+     */
 
-        String ISBN = isbnsearch.getText();
-        String qu = "SELECT * FROM book WHERE title = '" + ISBN + "'";
-        ResultSet result = dbhandler.ExecuteQuery(qu);
-        try {
-            while (result.next()){
-
-            String ISBNSearch = ISBN;
-                result.getString(ISBNSearch);
-            }
-            }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        String BookISBN = isbn.getText();
-        String BookTitle = title.getText();
-        String BookAuthor = author.getText();
-        String BookType = booktype.getText();
-
-        // if you don't write on all colums you get an error message
-        if (BookISBN.isEmpty() || BookTitle.isEmpty() || BookAuthor.isEmpty() || BookType.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Please enter in all fields");
-            alert.showAndWait();
-            return;
-
-        }
-
-
-//        + "  isbn int(11) primary key, \n"
-//                + "   title varchar(45), \n"
-//                + "  author varchar(45), \n"
-//                + " bookcategory_typeid int(45), \n"
-//                + " available boolean default true "
-//                + ")");
-
-        //this are the database queries.
-        String qu2 = "UPDATE book SET (" +
-                "'" + BookISBN + "'," +
-                "'" + BookTitle + "'," +
-                "'" + BookAuthor + "'," +
-                "'" + BookType + "'," +
-                "" + true + "" +
-                ")";
-        System.out.println(qu2);
-
-        if (dbhandler.executeAction(qu2)) {
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Succes");
-            alert.showAndWait();
-
-
-        } else //error
-
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Failed");
-            alert.showAndWait();
-
-        }
-
-
+    public  void close(ActionEvent event){
+        Stage window = (Stage) closePage.getScene().getWindow();
+        window.close();
     }
 
-
-    public  void cancel() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
-
-
 }
-
-
-
-
-
-
-
-

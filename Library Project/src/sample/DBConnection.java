@@ -726,6 +726,25 @@ public class DBConnection {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+    public void updateBookCatagory(String title,int bookTypeId){
+
+        String st_av = "UPDATE book SET bookcategory_typeid = " + bookTypeId + " WHERE title = '" + title + "'";
+        String st = "SELECT * FROM book;";
+
+        try {
+            Statement ste = connection.createStatement();
+            ResultSet resultSet = ste.executeQuery(st);
+
+            while (resultSet.next()) {
+                if (resultSet.getString(2).equalsIgnoreCase(title)) {
+                    Statement stet = connDB().createStatement();
+                    stet.executeUpdate(st_av);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
