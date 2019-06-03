@@ -43,9 +43,10 @@ public class UserInfoController implements Initializable {
                 System.out.println(borrowSelection.get(i));
                 System.out.println(borrowSelection.get(i).getTitle());
 
-                db.uppdateQuery(DBConnection.getUserId(),borrowSelection.get(i).getIsbn(),
-                        borrowSelection.get(i).getReturnDate(),
-                        borrowSelection.get(i).getBorrowDate());
+                db.uppdateQuery(DBConnection.getUserId(),
+                        borrowSelection.get(i).getIsbn(),
+                        borrowSelection.get(i).getActualReturnDate(),
+                        borrowSelection.get(i).getActualBorrowDate());
 
                 db.updateAvilablity(borrowSelection.get(i).getIsbn(),false);
 

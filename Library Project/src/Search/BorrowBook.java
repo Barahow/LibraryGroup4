@@ -3,16 +3,23 @@ package Search;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.sql.Date;
+
 public class BorrowBook extends Book {
 
     private SimpleStringProperty borrowDate;
     private SimpleStringProperty returnDate;
 
+    private Date actualBorrowDate;
+    private Date actualReturnDate;
 
-    public BorrowBook(String isbn, String title, String author, boolean availability, String borrowDate, String returnDate) {
-        super(isbn, title, author, availability);
-        this.borrowDate = new SimpleStringProperty(borrowDate);
-        this.returnDate = new SimpleStringProperty(returnDate);
+
+    public BorrowBook(int isbn, String title,  String author, int bookType, boolean availability,Date borrowDate, Date returnDate) {
+        super(isbn, title, author,bookType ,availability);
+        actualBorrowDate = borrowDate;
+        actualReturnDate = returnDate;
+        this.borrowDate = new SimpleStringProperty(borrowDate.toString());
+        this.returnDate = new SimpleStringProperty(returnDate.toString());
     }
 
     public String getTitle() {
@@ -42,5 +49,13 @@ public class BorrowBook extends Book {
 
     public void setReturnDate(String returnDate) {
         this.returnDate.set(returnDate);
+    }
+
+    public Date getActualBorrowDate() {
+        return actualBorrowDate;
+    }
+
+    public Date getActualReturnDate() {
+        return actualReturnDate;
     }
 }

@@ -23,13 +23,12 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.ResourceBundle;
 
 
 public class BookListController implements Initializable {
@@ -46,7 +45,7 @@ public class BookListController implements Initializable {
     @FXML
     private TableView<Book> table;
     @FXML
-    private TableColumn<Book, String> isbnCol;
+    private TableColumn<Book, Integer> isbnCol;
     @FXML
     private TableColumn<Book, String> titleCol;
     @FXML
@@ -55,6 +54,8 @@ public class BookListController implements Initializable {
     private TableColumn<Book, Boolean> availableCol;
     @FXML
     private TableColumn<Book, CheckBox> selectCol;
+    @FXML
+    private TableColumn<Book, Integer> booktypecol;
     @FXML
     private TextArea tx;
 
@@ -67,7 +68,7 @@ public class BookListController implements Initializable {
     // change to back home
     @FXML
     public void backHome(ActionEvent event) throws Exception {
-        Parent list = FXMLLoader.load(getClass().getResource("Search.fxml"));
+        Parent list = FXMLLoader.load(getClass().getResource("/view/search.fxml"));
         Scene scene = new Scene(list);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setTitle("Login");
@@ -83,9 +84,11 @@ public class BookListController implements Initializable {
         }
 
         ObservableList<Book> obBarrowedlist = FXCollections.observableArrayList(books);
-        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, String>("isbn"));
+
+        isbnCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("isbn"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        booktypecol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookType"));
         availableCol.setCellValueFactory(new PropertyValueFactory<Book, Boolean>("availability"));
         selectCol.setCellValueFactory(new PropertyValueFactory<Book, CheckBox>("checkBox"));
 
@@ -124,8 +127,8 @@ public class BookListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         DBConnection dbConn = new DBConnection();
 
-        //SearchCatalog sC = new SearchCatalog();
-        String title = SearchCatalog.booktitle;
+        //SearchCatalogController sC = new SearchCatalogController();
+        String title = SearchCatalogController.booktitle;
 
         try {
             dbConn.dbConnection();
@@ -167,18 +170,22 @@ public class BookListController implements Initializable {
 
 
     // return date after 10 days
-    private Date calculateReturnDate() {
-        Date date = new Date();
-        LocalDateTime localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        localDate = localDate.plusDays(10);
-        return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+    private java.sql.Date calculateReturnDate() {
+        Calendar currenttime = Calendar.getInstance();
+        currenttime.add(Calendar.DAY_OF_MONTH,10);
+        java.sql.Date sqldate = new java.sql.Date((currenttime.getTime()).getTime());
+        return sqldate;
     }
 
     //borrow date at current time
-    private Date getCurrentDate() {
-        Date date = new Date();
-        LocalDateTime localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+    private java.sql.Date getCurrentDate() {
+
+        Calendar currenttime = Calendar.getInstance();
+        java.sql.Date sqldate = new Date((currenttime.getTime()).getTime());
+        System.out.println("current date: " + sqldate.toString());
+
+        //LocalDateTime localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return sqldate;
     }
 
     @FXML
@@ -187,12 +194,15 @@ public class BookListController implements Initializable {
 
             if (table.getItems().get(i).getCheckBox().isSelected()) {
                 BorrowBook borrowBook =
-                        new BorrowBook(table.getItems().get(i).getIsbn(),
+                        new BorrowBook(
+                                table.getItems().get(i).getIsbn(),
                                 table.getItems().get(i).getTitle(),
                                 table.getItems().get(i).getAuthor(),
+                                table.getItems().get(i).getBookType(),
                                 table.getItems().get(i).isAvailability(),
-                                getCurrentDate().toString(),
-                                calculateReturnDate().toString());
+
+                                getCurrentDate(),
+                                calculateReturnDate());
                 myBorrowedBooks.add(borrowBook);
 
             }
@@ -200,7 +210,7 @@ public class BookListController implements Initializable {
         }
 
 
-        Parent list = FXMLLoader.load(getClass().getResource("/Login/signIn.fxml"));
+        Parent list = FXMLLoader.load(getClass().getResource("/view/signIn.fxml"));
         Scene scene = new Scene(list);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setTitle("SignInPage");
@@ -208,6 +218,7 @@ public class BookListController implements Initializable {
         window.show();
 
     }
+
 
 
 }

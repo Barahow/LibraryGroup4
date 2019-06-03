@@ -20,11 +20,12 @@ public class DBConnection {
     ResultSet resultSet;
     ResultSet resultSet1;
     private String bo;
-    //SearchCatalog se = new SearchCatalog();
+    //SearchCatalogController se = new SearchCatalogController();
     //CachedRowSetImpl cachedRowSet; retrieve from existing columnDB
     ArrayList<Book> books = new ArrayList<>();
-    static int userId;
-    static String email;
+    private static String userId;
+    private static String email;
+    private boolean admin;
 
 
 
@@ -66,33 +67,38 @@ public class DBConnection {
     // retrieve data from DB
     public ArrayList<Book> executeQuery(String bookname) {
         String st = "SELECT * FROM book;";
-            try {
-                resultSet = statement.executeQuery(st);
-                while (resultSet.next()) {
-                    //System.out.println("Start");
-                    if (resultSet.getString(2).contains(bookname) && resultSet.getBoolean(4)) {
-                        //  System.out.println(resultSet.getString(1) + ",   " + resultSet.getString(2));
+        try {
+            resultSet = statement.executeQuery(st);
+            while (resultSet.next()) {
+                //System.out.println("Start");
+                if (resultSet.getString(2).contains(bookname)) {
+                    //  System.out.println(resultSet.getString(1) + ",   " + resultSet.getString(2));
+                    boolean available = false;
+                    if(resultSet.getInt(5)==1){
+                        available = true;
                         Book book = new Book(
-                                resultSet.getString(1),
+                                resultSet.getInt(1),
                                 resultSet.getString(2),
                                 resultSet.getString(3),
-                                resultSet.getBoolean(4));
-                        
+                                resultSet.getInt(4),
+                                available);
                         books.add(book);
                     }
+
                 }
-                return books;
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            return null;
+            return books;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
-    public ArrayList<Book> fetchAllBooks() {
+  /*  public ArrayList<Book> fetchAllBooks() {
         String st = "SELECT * FROM book;";
         try {
-            resultSet = statement.executeQuery(st);
+            resultSet = statement.getBooks(st);
             while (resultSet.next()) {
                 //  System.out.println(resultSet.getString(1) + ",   " + resultSet.getString(2));
                 Book book = new Book(
@@ -107,7 +113,7 @@ public class DBConnection {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     public void dbDisconnect() throws SQLException {
         try {
@@ -121,9 +127,12 @@ public class DBConnection {
 
     public boolean signIn(String um, String pm) throws Exception {
         int count = 0;
-        String sqlMem = "SELECT * FROM account;";
+        String sqlMem = "SELECT account.email,account.password,member.membertype,member.SSN " +
+                "FROM account,member " +
+                "WHERE member.SSN = account.member_SSN;";
         System.out.println("i am here");
         try {
+            System.out.println(connection);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlMem);
 
@@ -133,9 +142,13 @@ public class DBConnection {
                     //System.out.println("Username was correct!");
                     if (pm.equals(resultSet.getString("password"))) {
                         //infoBox("Login Successful", null, "Success");
-                        userId = (resultSet.getInt(1));
-                        email = (resultSet.getString(7));
-
+                        if(resultSet.getInt("membertype")==0){
+                            admin = false;
+                        }else if(resultSet.getInt("membertype") == 1){
+                            admin = true;
+                        }
+                        userId = (resultSet.getString("SSN"));
+                        email = (resultSet.getString("email"));
                         return true;
                     } else {
                         //pass not correct
@@ -144,29 +157,26 @@ public class DBConnection {
                     }
                 } else {
                     //infoBox("username not correct", null, "Failed");
-
-
                 }
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean signUp(String SSN, String name, String address, String phoneNumber,
-                          String email, String membertype ) {
+    public boolean signUp(String ssn, String name, String address, String phone, String email, String password){
 
         try {
             Statement stateSignUp = connDB().createStatement();
-            String sqlSign = "INSERT INTO member (SSN,name,address,phone_number,email,membertype) " +
-                    "VALUES('"+SSN+"','"+name+"', '"+address+"'," +
-                    " '"+phoneNumber+"','"+email+"','"+membertype+"');";
+            String sqlSign = "INSERT INTO member " +
+                    "VALUES('"+ssn+"','"+name+"','"+address+"','"+phone+"','"+email+"',0);";
+            String sqlSign2 = "INSERT INTO account " +
+                    "VALUES('" + email + "','" + password + "',(SELECT ssn FROM member WHERE ssn = '" + ssn + "'));";
             stateSignUp.executeUpdate(sqlSign);
+            stateSignUp.executeUpdate(sqlSign2);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e){
             e.printStackTrace();
             return false;
         }
@@ -180,17 +190,19 @@ public class DBConnection {
      * @throws SQLException
      */
 // update DB (borredby table)
-    public void uppdateQuery(int member_id, String book_id,String rd,String id) throws SQLException {
+    public void uppdateQuery(String member_SSN, int book_isbn, Date rd, Date id) throws SQLException {
 
         String borrowSt = "SELECT * FROM borrowedby;";
         Statement statement = connDB().createStatement();
         ResultSet resultSet = statement.executeQuery(borrowSt);
 
-        String st = "INSERT INTO borrowedby (member_memberid, book_isbn, returndate, borroweddate) " +
-                "VALUES('"+member_id+"', '"+book_id+"', '"+rd+"','"+id+"');";
+        String st = "INSERT INTO borrowedby " +
+                "VALUES((SELECT ssn FROM member WHERE ssn = '"+member_SSN+"')," +
+                "(SELECT isbn FROM book WHERE isbn = '"+book_isbn+"')," +
+                "'" + rd + "','" + rd + "','" + id + "');";
         boolean check = false;
         while (resultSet.next()){
-            if ((resultSet.getInt(1)==member_id) && (resultSet.getString(2).equalsIgnoreCase(book_id))){
+            if ((resultSet.getString(1)==member_SSN) && (resultSet.getString(2).equalsIgnoreCase(String.valueOf(book_isbn)))){
                 System.out.println("Already borrowed");
             }else {
                 check = true;
@@ -207,11 +219,11 @@ public class DBConnection {
 
 
 
-    public List<BorrowBook> fetchBorrowedBooks() {
+    /*public List<BorrowBook> fetchBorrowedBooks() {
         List<BorrowBook> books = new ArrayList<>();
         String query = "SELECT * FROM book WHERE available = 0;";
         try {
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.getBooks(query);
             while (rs.next()) {
                 books.add(new BorrowBook(rs.getString(1), rs.getString(2), rs.getString(3),
                         rs.getBoolean(4), "44444", "23421"));
@@ -222,30 +234,30 @@ public class DBConnection {
         }
 
         return books;
-    }
+    }*/
 // changes availability into false which means cancel from DB
-    public void updateAvilablity(String isbn,boolean avilable){
-        int available = 0;
-        if(avilable){
-            available = 1;
-        }
-        String st_av = "UPDATE book SET available = " + available + " WHERE isbn = '" + isbn + "'";
-        String st = "SELECT * FROM book;";
-
-        try {
-            Statement ste = connection.createStatement();
-            ResultSet resultSet = ste.executeQuery(st);
-
-            while (resultSet.next()) {
-                if (resultSet.getString(1).equalsIgnoreCase(isbn)){
-                    Statement stet = connDB().createStatement();
-                    stet.executeUpdate(st_av);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+public void updateAvilablity(int isbn, boolean avilable){
+    int available = 0;
+    if(avilable){
+        available = 1;
     }
+    String st_av = "UPDATE book SET available = " + available + " WHERE isbn = '" + isbn + "'";
+    String st = "SELECT * FROM book;";
+
+    try {
+        Statement ste = connection.createStatement();
+        ResultSet resultSet = ste.executeQuery(st);
+
+        while (resultSet.next()) {
+            if (resultSet.getString(1).equalsIgnoreCase(String.valueOf(isbn))){
+                Statement stet = connDB().createStatement();
+                stet.executeUpdate(st_av);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
   /*  public void updateUnavailability(String isbn,boolean avilable){
         int available = 1;
         if(avilable){
@@ -256,7 +268,7 @@ public class DBConnection {
 
         try {
             Statement ste = connection.createStatement();
-            ResultSet resultSet = ste.executeQuery(st);
+            ResultSet resultSet = ste.getBooks(st);
 
             while (resultSet.next()) {
                 if (resultSet.getString(1).equalsIgnoreCase(isbn)){
@@ -273,7 +285,7 @@ public class DBConnection {
         List<User> userInfo = new ArrayList<>();
         String query = "SELECT name FROM user ;";
         try {
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.getBooks(query);
             while (resultSet.next()){
                 //userInfo.add(new User(resultSet.getString(1),resultSet.getString(2)));
 
@@ -284,11 +296,11 @@ public class DBConnection {
         return null;
     }*/
 
-    public static int getUserId() {
+    public static String getUserId() {
         return userId;
     }
 
-    public static void setUserId(int userId) {
+    public static void setUserId(String userId) {
         DBConnection.userId = userId;
     }
 

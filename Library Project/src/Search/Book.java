@@ -1,43 +1,39 @@
 package Search;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.control.CheckBox;
 
 public class Book {
-    StringProperty isbn;
-    StringProperty title;
-    StringProperty author;
-    BooleanProperty availability;
+    SimpleIntegerProperty isbn;
+    SimpleStringProperty title;
+    SimpleStringProperty Author;
+    SimpleIntegerProperty bookType;
+    SimpleBooleanProperty availability;
+
     CheckBox checkBox;
 
-    public Book(String isbn, String title, String author, boolean availability) {
-        this.isbn = new SimpleStringProperty(isbn);
+
+
+    public Book(int isbn,String title,String author, int bookType, boolean availability){
+
         this.title = new SimpleStringProperty(title);
-        this.author = new SimpleStringProperty(author);
+        this.isbn = new SimpleIntegerProperty(isbn);
+        this.Author = new SimpleStringProperty(author);
+        this.bookType = new SimpleIntegerProperty(bookType);
         this.availability = new SimpleBooleanProperty(availability);
         this.checkBox = new CheckBox();
+
     }
 
-    public CheckBox getCheckBox() {
-        return checkBox;
-    }
-
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
-    }
-
-    public String getIsbn() {
+    public int getIsbn() {
         return isbn.get();
     }
 
-    public StringProperty isbnProperty() {
+    public SimpleIntegerProperty isbnProperty() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(int isbn) {
         this.isbn.set(isbn);
     }
 
@@ -45,7 +41,7 @@ public class Book {
         return title.get();
     }
 
-    public StringProperty titleProperty() {
+    public SimpleStringProperty titleProperty() {
         return title;
     }
 
@@ -54,26 +50,46 @@ public class Book {
     }
 
     public String getAuthor() {
-        return author.get();
+        return Author.get();
     }
 
-    public StringProperty authorProperty() {
-        return author;
+    public SimpleStringProperty authorProperty() {
+        return Author;
     }
 
     public void setAuthor(String author) {
-        this.author.set(author);
+        this.Author.set(author);
+    }
+
+    public int getBookType() {
+        return bookType.get();
+    }
+
+    public SimpleIntegerProperty bookTypeProperty() {
+        return bookType;
+    }
+
+    public void setBookType(int bookType) {
+        this.bookType.set(bookType);
     }
 
     public boolean isAvailability() {
         return availability.get();
     }
 
-    public BooleanProperty availabilityProperty() {
+    public SimpleBooleanProperty availabilityProperty() {
         return availability;
     }
 
     public void setAvailability(boolean availability) {
         this.availability.set(availability);
+    }
+
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    public void setCheckBox(CheckBox checkBox) {
+        this.checkBox = checkBox;
     }
 }

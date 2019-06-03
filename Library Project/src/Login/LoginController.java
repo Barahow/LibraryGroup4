@@ -129,7 +129,7 @@ public class LoginController extends AbstractController implements Initializable
            Statement statement = connection.createStatement();
            //preparedStatement.setString(1, um);
            //preparedStatement.setString(2, pm);
-           resultSet = statement.executeQuery(sqlMem);
+           resultSet = statement.getBooks(sqlMem);
 
            while(resultSet.next()){
                if(um.equals(resultSet.getString("username"))){

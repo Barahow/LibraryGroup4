@@ -1,29 +1,20 @@
 package Login;
 
 public class User {
-    String SSN;
     String name;
     String address;
-    String phoneNumber;
-    String email;
-    boolean membertype = true;
+    String memberId;
+    String userName;
+    String password;
+    boolean member = true;
 
-    public User(String SSN, String name, String address,
-                String phoneNumber, String email, boolean membertype) {
-        this.SSN = SSN;
+    public User(String name, String address, String memberId, String userName, String password, boolean member) {
         this.name = name;
         this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.membertype = membertype;
-    }
-
-    public String getSSN() {
-        return SSN;
-    }
-
-    public void setSSN(String SSN) {
-        this.SSN = SSN;
+        this.memberId = memberId;
+        this.userName = userName;
+        this.password = password;
+        this.member = member;
     }
 
     public String getName() {
@@ -42,28 +33,36 @@ public class User {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public boolean isMembertype() {
-        return membertype;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMembertype(boolean membertype) {
-        this.membertype = membertype;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isMember() {
+        return member;
+    }
+
+    public void setMember(boolean member) {
+        this.member = member;
     }
 }
 

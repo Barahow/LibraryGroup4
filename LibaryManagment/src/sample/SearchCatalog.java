@@ -38,7 +38,7 @@ public class SearchCatalog implements Initializable {
    /* @FXML
     public void searchBook(ActionEvent event) throws SQLException {
         conn.dbConnection();
-        conn.executeQuery(se.getText());
+        conn.getBooks(se.getText());
 
         conn.dbDisconnect();
 

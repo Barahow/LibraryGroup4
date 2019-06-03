@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class SearchCatalog implements Initializable {
+public class SearchCatalogController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
