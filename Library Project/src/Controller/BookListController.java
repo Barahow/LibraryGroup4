@@ -1,8 +1,5 @@
 package Controller;
 
-import model.Book;
-import model.BorrowBook;
-import model.ProjectManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,20 +14,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.*;
 import sample.DBConnection;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class BookListController implements Initializable {
+
 
     private Book mybook;
     @FXML
@@ -52,14 +49,18 @@ public class BookListController implements Initializable {
     @FXML
     private TableColumn<Book, Boolean> availableCol;
     @FXML
+    private TableColumn<Book, Boolean> reserveCol;
+    @FXML
     private TableColumn<Book, CheckBox> selectCol;
     @FXML
     private TableColumn<Book, Integer> booktypecol;
     @FXML
     private TextArea tx;
+    public static boolean borrowHistory;
 
     List<Book> books;
     public static List<BorrowBook> myBorrowedBooks = new ArrayList<>();
+    public static List<ReservedBook> myReservedBooks = new ArrayList<>();
     ObservableList<Book> oblist = FXCollections.observableArrayList();
     private GridPane gridPane;
     DBConnection db = new DBConnection();
@@ -90,6 +91,7 @@ public class BookListController implements Initializable {
         booktypecol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookType"));
         availableCol.setCellValueFactory(new PropertyValueFactory<Book, Boolean>("availability"));
         selectCol.setCellValueFactory(new PropertyValueFactory<Book, CheckBox>("checkBox"));
+        reserveCol.setCellValueFactory(new PropertyValueFactory<Book, Boolean>("reserved"));
 
         table.setItems(obBarrowedlist);
 
@@ -135,7 +137,7 @@ public class BookListController implements Initializable {
             e.printStackTrace();
         }
         // books = dbConn.fetchAllBooks();  // This fetches all books
-        books = dbConn.executeQuery(title);
+        books = dbConn.getBooks(title);
 
         if (ProjectManager.getInstance().gridPane != null) {
             anchorPaneSearch.getChildren().add(ProjectManager.getInstance().gridPane);
@@ -171,7 +173,7 @@ public class BookListController implements Initializable {
     // return date after 10 days
     private Date calculateReturnDate() {
         Calendar currenttime = Calendar.getInstance();
-        currenttime.add(Calendar.DAY_OF_MONTH,10);
+        currenttime.add(Calendar.DAY_OF_MONTH, 10);
         Date sqldate = new Date((currenttime.getTime()).getTime());
         return sqldate;
     }
@@ -190,24 +192,25 @@ public class BookListController implements Initializable {
     @FXML
     public void signInPage(ActionEvent event) throws Exception {
         for (int i = 0; i < table.getItems().size(); i++) {
-
-            if (table.getItems().get(i).getCheckBox().isSelected()) {
+            Book book = table.getItems().get(i);
+            if (book.getCheckBox().isSelected() && book.isAvailability()) {
                 BorrowBook borrowBook =
-                        new BorrowBook(table.getItems().get(i).getIsbn(),
-                                table.getItems().get(i).getTitle(),
-                                table.getItems().get(i).getAuthor(),
-                                table.getItems().get(i).getBookType(),
-                                table.getItems().get(i).isAvailability(),
-
-                                getCurrentDate(),
-                                calculateReturnDate());
+                        new BorrowBook(
+                                book.getIsbn(),
+                                book.getTitle(),
+                                book.getAuthor(),
+                                book.getBookType(),
+                                book.isAvailability(),
+                                false,
+                                getCurrentDate().toString(),
+                                calculateReturnDate().toString(), "");
                 myBorrowedBooks.add(borrowBook);
 
             }
 
         }
 
-
+        borrowHistory = true;
         Parent list = FXMLLoader.load(getClass().getResource("/view/signIn.fxml"));
         Scene scene = new Scene(list);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -217,7 +220,32 @@ public class BookListController implements Initializable {
 
     }
 
+    public void reserveBook(ActionEvent event) {
+        if (DataManager.getInstance().getLoggedInUser() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "User not logged in", ButtonType.OK);
 
+            alert.showAndWait();
+            return;
+        }
+
+        StringBuilder st = new StringBuilder();
+
+        for (Book book : books) {
+            if (!book.isAvailability() && book.getCheckBox().isSelected()) {
+                if (book instanceof BorrowBook) {
+                    db.reserveBook((new ReservedBook(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getBookType(),
+                            book.isAvailability(), true, getCurrentDate().toString(), ((BorrowBook) book).getReturnDate())));
+                    db.updateReservation(book.getIsbn(),true);
+                    st.append(book.getTitle() + ", ");
+                }
+            }
+        }
+        st.append( " successfully reserved");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, st.toString(), ButtonType.OK);
+        alert.showAndWait();
+    }
 
 
 }
+

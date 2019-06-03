@@ -8,23 +8,24 @@ import javafx.scene.control.CheckBox;
 public class Book {
 
 
-     SimpleIntegerProperty isbn;
-     SimpleStringProperty title;
-     SimpleStringProperty Author;
-     SimpleIntegerProperty bookType;
-     SimpleBooleanProperty availability;
+    private SimpleIntegerProperty isbn;
+    private SimpleStringProperty title;
+    private SimpleStringProperty Author;
+    private SimpleIntegerProperty bookType;
+    private SimpleBooleanProperty availability;
+    private SimpleBooleanProperty reserved;
 
-    CheckBox checkBox;
+    private CheckBox checkBox;
 
 
-
-    public Book(int isbn,String title,String author, int bookType, boolean availability){
+    public Book(int isbn, String title, String author, int bookType, boolean availability, boolean reserved) {
 
         this.title = new SimpleStringProperty(title);
         this.isbn = new SimpleIntegerProperty(isbn);
         this.Author = new SimpleStringProperty(author);
         this.bookType = new SimpleIntegerProperty(bookType);
         this.availability = new SimpleBooleanProperty(availability);
+        this.reserved = new SimpleBooleanProperty(reserved);
         this.checkBox = new CheckBox();
 
     }
@@ -95,6 +96,18 @@ public class Book {
 
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
+    }
+
+    public boolean isReserved() {
+        return reserved.get();
+    }
+
+    public SimpleBooleanProperty reservedProperty() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved.set(reserved);
     }
 }
 

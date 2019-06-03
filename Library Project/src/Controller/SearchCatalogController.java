@@ -1,8 +1,6 @@
 package Controller;
 
 import javafx.scene.control.Button;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import model.Book;
 import model.BorrowBook;
 import javafx.event.ActionEvent;
@@ -56,7 +54,7 @@ public class SearchCatalogController implements Initializable {
             myBooks = null;
             search1.setPromptText("Enter title");
             conn.dbConnection();
-            myBooks = conn.executeQuery(search1.getText());
+            myBooks = conn.getBooks(search1.getText());
             booktitle = search1.getText();
 
 

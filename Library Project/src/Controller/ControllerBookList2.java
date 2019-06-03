@@ -61,9 +61,9 @@ public class ControllerBookList2 {
                 int bookTypeId = resultSet.getInt("bookcategory_typeid");
                 int ISBN = resultSet.getInt("isbn");
                 Boolean Availability = resultSet.getBoolean("available");
-
+Boolean reserved = resultSet.getBoolean("reserved");
                 // adding them together
-                List.add(new Book(ISBN,Title,Author, bookTypeId, Availability));
+                List.add(new Book(ISBN,Title,Author, bookTypeId, Availability, reserved));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,12 +135,7 @@ public class ControllerBookList2 {
 
 
     }
-    public void handleEditBook() {
-
-    }
 }
-///
- ////////////
 
 
 

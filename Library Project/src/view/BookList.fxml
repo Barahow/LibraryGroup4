@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="709.0" style="-fx-background-color: #00897B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BookListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="709.0" style="-fx-background-color: #00897B;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BookListController">
    <children>
       <BorderPane prefHeight="618.0" prefWidth="709.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -28,12 +28,13 @@
                      <children>
                         <TableView fx:id="table" prefHeight="534.0" prefWidth="599.0">
                           <columns>
-                              <TableColumn fx:id="selectCol" prefWidth="23.0" />
-                            <TableColumn fx:id="isbnCol" prefWidth="113.0" text="ISBN" />
-                            <TableColumn fx:id="titleCol" prefWidth="101.0" text="Title" />
-                              <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="123.0" text="Author" />
-                              <TableColumn fx:id="booktypecol" prefWidth="103.0" text="Booktype" />
-                              <TableColumn fx:id="availableCol" prefWidth="110.0" text="Availability" />
+                              <TableColumn fx:id="selectCol" minWidth="0.0" prefWidth="27.0" />
+                            <TableColumn fx:id="isbnCol" prefWidth="46.99998474121094" text="ISBN" />
+                            <TableColumn fx:id="titleCol" prefWidth="105.0" text="Title" />
+                              <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="105.0" text="Author" />
+                              <TableColumn fx:id="booktypecol" prefWidth="89.0" text="Booktype" />
+                              <TableColumn fx:id="availableCol" prefWidth="65.0" text="Available" />
+                              <TableColumn fx:id="reserveCol" prefWidth="99.0" text="Reserved" />
                           </columns>
                         </TableView>
                      </children>
@@ -45,6 +46,14 @@
                      <font>
                         <Font size="18.0" />
                      </font>
+                  </Button>
+                  <Button fx:id="reserve" mnemonicParsing="false" onAction="#reserveBook" prefHeight="65.0" prefWidth="107.0" style="-fx-background-color: #039BE5; -fx-background-radius: 10;" text="reserve">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="400.0" />
+                     </HBox.margin>
                   </Button>
                </children></HBox>
          </top>

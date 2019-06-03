@@ -49,68 +49,63 @@ public class ControllerAddMember {
         String Address = txtaddress.getText();
         String PhoneNumber = txtphonenumber.getText();
         String Email = txtemail.getText();
-        String Password = txtpassword.getText();
+        String Password =txtpassword.getText();
 
         //String  MemberType=  txtmembertype.getText();
 
         // if you don't write on all colums you get an error message
+        if (SSN.isEmpty() || Name.isEmpty() || Address.isEmpty() || PhoneNumber.isEmpty() || Email.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter in all fields");
+            alert.showAndWait();
+            return;
 
-        if (SSN.matches("^\\d{6}(\\d{2})?[-+]\\d{4}$")) {
+        }
 
-            if (PhoneNumber.matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}")) {
-                String qu = "INSERT INTO member VALUES (" +
-                        "'" + SSN + "'," +
-                        "'" + Name + "'," +
-                        "'" + Address + "'," +
-                        "'" + PhoneNumber + "'," +
-                        "'" + Email + "'," +
-                        "" + true + "" +
-                        ")";
-                String qu2 = "INSERT INTO account VALUES (" +
-                        "'" + Email + "'," +
-                        "'" + Password + "'," +
-                        "'" + SSN + "'" +
-                        ")";
-                System.out.println(qu);
 
-                if (databasehandler.executeAction(qu) && databasehandler.executeAction(qu2)) {
+//        + "  isbn int(11) primary key, \n"
+//                + "   title varchar(45), \n"
+//                + "  author varchar(45), \n"
+//                + " bookcategory_typeid int(45), \n"
+//                + " available boolean default true "
+//                + ")");
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(null);
-                    alert.setContentText("Succes");
-                    alert.showAndWait();
-                }
-                // you need to enter in all fields
-                if (SSN.isEmpty() || Name.isEmpty() || Address.isEmpty() || PhoneNumber.isEmpty() || Email.isEmpty()) {
-                    errorEnterFields();
-                    return;
-                }else {
-                    // if it the phone number isn't 10 digits you get an error
-                    validatePhonenumberError();
-                }
+        //this are the database queries.
+        String qu = "INSERT INTO member VALUES (" +
+                "'" + SSN + "'," +
+                "'" + Name + "'," +
+                "'" + Address + "'," +
+                "'" + PhoneNumber + "'," +
+                "'" + Email + "'," +
+                "" + true + "" +
+                ")";
+        String qu2 = "INSERT INTO account VALUES (" +
+                "'" + Email + "'," +
+                "'" + Password + "'," +
+                "'" + SSN + "'" +
+                ")";
+        System.out.println(qu);
 
-            } else {
-                // if the SSN doesn't follow this format yymmdd-xxxx you get an error
-                validateSSNError();
-                return;
-            }
+        if (databasehandler.executeAction(qu) && databasehandler.executeAction(qu2)) {
 
-        } else {
-            // Database error
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Succes");
+            alert.showAndWait();
+
+
+        } else //error
+
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Failed");
             alert.showAndWait();
+
         }
-    }
 
 
-    private void errorEnterFields() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText("Please enter in all fields");
-        alert.showAndWait();
-        return;
     }
 
     public void cancel(ActionEvent event) {
@@ -121,18 +116,7 @@ public class ControllerAddMember {
 
     }
 
-    private void validateSSNError() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText("Error, the SSN security number needs to follow this format yymmdd-nnnn and Phonenumber needs to be 10 digits");
-        alert.showAndWait();
 
-    }
-
-    private void validatePhonenumberError() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText("Error Phonenumber needs to be 10 digits");
-        alert.showAndWait();
-    }
 }
+
+

@@ -1,9 +1,7 @@
 package sample;
 
 
-import model.Account;
-import model.Book;
-import model.Member;
+import model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +11,7 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    Connection connection = null;
+    private Connection conn = null;
     Statement statement;
     Statement statement1;
     PreparedStatement preparedStatement = null;
@@ -25,7 +23,6 @@ public class DBConnection {
     static String email;
     private boolean admin;
 
-    private Connection conn = null;
     private static Statement stmt = null;
 
     //Modify this string with your local database/schema name and username and password.
@@ -38,8 +35,8 @@ public class DBConnection {
     private static DBConnection instance = null;
 
     public DBConnection() {
-        DB_URL = "jdbc:mysql://localhost/library?user=root&password=root&serverTimezone=UTC&useSSL=false";
-        connection = connDB();
+        // DB_URL = "jdbc:mysql://localhost/library?user=root&password=12345&serverTimezone=UTC&useSSL=false";
+        //  connection = connDB();
         Properties properties = new Properties();
         //this will point to the database url in my package
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("properties/dbInfo.properties")) {
@@ -67,35 +64,33 @@ public class DBConnection {
     private Connection connDB() {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL);
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         return conn;
     }
-//@A: DB connection
+
+    //@A: DB connection
     public void dbConnection() throws SQLException {
 
-        connection = connDB();
+        conn = connDB();
         try {
-            statement = connection.createStatement();
+            statement = conn.createStatement();
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
         System.out.println("Connection success!");
     }
 
-//@A: DB disconnection
+    //@A: DB disconnection
     public void dbDisconnect() throws SQLException {
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,26 +98,40 @@ public class DBConnection {
     }
 
     // retrieve data from DB
-    public ArrayList<Book> executeQuery(String bookname) {
-        String st = "SELECT * FROM book";
+    public ArrayList<Book> getBooks(String bookName) {
+        String st = "SELECT * FROM book WHERE title like '%" + bookName + "%';";
         try {
-            resultSet = statement.executeQuery(st);
+            Statement stat = conn.createStatement();
+            ResultSet resultSet = stat.executeQuery(st);
             while (resultSet.next()) {
                 //System.out.println("Start");
-                if (resultSet.getString("title").contains(bookname)) {
+                if (resultSet.getString("title").contains(bookName)) {
                     System.out.println(st);
                     //  System.out.println(resultSet.getString(1) + ",   " + resultSet.getString(2));
                     boolean available = false;
-                    if(resultSet.getInt("available")==1){
+                    boolean reserved = false;
+                    if (resultSet.getInt("available") == 1) {
                         available = true;
-                        Book book = new Book(
-                                resultSet.getInt("isbn"),
-                                resultSet.getString("title"),
-                                resultSet.getString("author"),
-                                resultSet.getInt("bookcategory_typeid"),
-                                available);
-                        books.add(book);
                     }
+                    if (resultSet.getInt("reserved") == 1) {
+                        reserved = true;
+                    }
+                    Book book =   new Book(
+                            resultSet.getInt("isbn"),
+                            resultSet.getString("title"),
+                            resultSet.getString("author"),
+                            resultSet.getInt("bookcategory_typeid"),
+                            available,reserved);
+
+                    if(!available){
+                        book = fetchBorrowedBook(book);
+                    }
+
+                    if(reserved){
+                        book = fetchReservedBook(book);
+                    }
+
+                        books.add(book);
 
                 }
             }
@@ -133,16 +142,55 @@ public class DBConnection {
         return null;
     }
 
+
+
+    public BorrowBook fetchBorrowedBook(Book book){
+        String query =  "SELECT * FROM borrowedby WHERE book_isbn =" + book.getIsbn()+ ";";
+        try {
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()){
+                book = new BorrowBook(book.getIsbn(), book.getTitle(),book.getAuthor(),book.getBookType(),book.isAvailability(),
+                        book.isReserved(), rs.getDate("issue_date").toString(), rs.getDate("return_date").toString(),
+                        rs.getDate("due_date").toString());
+            }
+
+            return (BorrowBook) book;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return (BorrowBook) book;
+    }
+
+    public ReservedBook fetchReservedBook(Book book){
+        String query =  "SELECT * FROM reservedby WHERE book_isbn =" + book.getIsbn()+ ";";
+        try {
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()){
+                book = new ReservedBook(book.getIsbn(), book.getTitle(),book.getAuthor(),book.getBookType(),book.isAvailability(),
+                        book.isReserved(), rs.getDate("resrvation_date").toString(), rs.getDate("available_date").toString());
+            }
+
+            return (ReservedBook) book;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     // @A: sign in using username and password from DB
     public boolean signIn(String um, String pm) throws Exception {
         int count = 0;
-        String sqlMem = "SELECT account.email,account.password,member.membertype,member.SSN " +
+        String sqlMem = "SELECT account.email,account.password,member.* " +
                 "FROM account,member " +
                 "WHERE member.SSN = account.member_SSN;";
         System.out.println("i am here");
         try {
-            System.out.println(connection);
-            Statement statement = connection.createStatement();
+            System.out.println(conn);
+            Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlMem);
 
             while (resultSet.next()) {
@@ -151,13 +199,22 @@ public class DBConnection {
                     //System.out.println("Username was correct!");
                     if (pm.equals(resultSet.getString("password"))) {
                         //infoBox("Login Successful", null, "Success");
-                        if(resultSet.getInt("membertype")==0){
+                        if (resultSet.getInt("membertype") == 0) {
                             admin = false;
-                        }else if(resultSet.getInt("membertype") == 1){
+                        } else if (resultSet.getInt("membertype") == 1) {
                             admin = true;
                         }
                         userId = (resultSet.getString("SSN"));
                         email = (resultSet.getString("email"));
+
+                        String name = resultSet.getString("name");
+                        String address = resultSet.getString("address");
+                        String id = resultSet.getString("SSN");
+                        String phoneNr = resultSet.getString("phone_number");
+                        String email = resultSet.getString("email");
+
+                        DataManager.getInstance().setLoggedInUser(new User(name,address,id,email,admin));
+
                         return true;
                     } else {
                         //pass not correct
@@ -176,18 +233,18 @@ public class DBConnection {
 
     //@A: sign up member or admin from DB
 
-    public boolean signUp(String ssn, String name, String address, String phone, String email, String password){
+    public boolean signUp(String ssn, String name, String address, String phone, String email, String password, int memberType) {
 
         try {
             Statement stateSignUp = connDB().createStatement();
-            String sqlSign = "INSERT INTO member " +
-                    "VALUES('"+ssn+"','"+name+"','"+address+"','"+phone+"','"+email+"',0);";
+            String sqlSign = "INSERT INTO member (SSN,name,address,phone_number,email,membertype,password)" +
+                    "VALUES ('" + ssn + "','" + name + "','" + address + "','" + phone + "','" + email + "', " + memberType + ",'" + password + "');";
             String sqlSign2 = "INSERT INTO account " +
-                    "VALUES('" + email + "','" + password + "',(SELECT ssn FROM member WHERE ssn = '" + ssn + "'));";
+                    "VALUES('" + email + "','" + password + "','" + ssn + "');";
             stateSignUp.executeUpdate(sqlSign);
             stateSignUp.executeUpdate(sqlSign2);
             return true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -201,56 +258,160 @@ public class DBConnection {
         ResultSet resultSet = statement.executeQuery(borrowSt);
 
         String st = "INSERT INTO borrowedby " +
-                "VALUES((SELECT ssn FROM member WHERE ssn = '"+member_SSN+"')," +
-                "(SELECT isbn FROM book WHERE isbn = '"+book_isbn+"')," +
+                "VALUES((SELECT ssn FROM member WHERE ssn = '" + member_SSN + "')," +
+                "(SELECT isbn FROM book WHERE isbn = '" + book_isbn + "')," +
                 "'" + rd + "','" + rd + "','" + id + "');";
         boolean check = false;
-        while (resultSet.next()){
-            if ((resultSet.getString(1)==member_SSN) && (resultSet.getString(2).equalsIgnoreCase(String.valueOf(book_isbn)))){
+        while (resultSet.next()) {
+            if ((resultSet.getString(1) == member_SSN) && (resultSet.getString(2).equalsIgnoreCase(String.valueOf(book_isbn)))) {
                 System.out.println("Already borrowed");
-            }else {
+            } else {
                 check = true;
             }
         }
-        if(resultSet.getFetchSize()<1){
+        if (resultSet.getFetchSize() < 1) {
             check = true;
         }
-        if (check){
+        if (check) {
             Statement state = connDB().createStatement();
             state.executeUpdate(st);
         }
     }
 
-    //@A: changes availability into false which means cancel from DB
-    public void updateAvilablity(int isbn, boolean avilable){
-        int available = 0;
-        if(avilable){
-            available = 1;
-        }
-        String st_av = "UPDATE book SET available = " + available + " WHERE isbn = '" + isbn + "'";
-        String st = "SELECT * FROM book;";
-
+    public String[] passwordQuery(String email) {
+        String[] returnVal = new String[2];
+        String sqlMem = "SELECT password, name FROM member WHERE email='" + email + "';";
         try {
-            Statement ste = connection.createStatement();
-            ResultSet resultSet = ste.executeQuery(st);
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlMem);
 
-            while (resultSet.next()) {
-                if (resultSet.getString(1).equalsIgnoreCase(String.valueOf(isbn))){
-                    Statement stet = connDB().createStatement();
-                    stet.executeUpdate(st_av);
-                }
+            if (resultSet.next()) {
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+
+                returnVal[0] = password;
+                returnVal[1] = name;
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnVal;
+    }
+
+
+    public void returnBook(BorrowBook book) {
+        try {
+            String query = "update book a INNER JOIN borrowedby b ON (a.isbn = b.book_isbn1) set a.available = ?, b.returndate = ? where a.isbn = ? AND " +
+                    "b.book_isbn1 = ?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, 1);
+            java.util.Date now = new java.util.Date();
+//        String pattern = "yyyy-MM-dd";
+//        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+//        String mysqlDateString = formatter.format(now);
+            preparedStmt.setDate(2, new Date(now.getTime()));
+            preparedStmt.setInt(3, book.getIsbn());
+            preparedStmt.setInt(4, book.getIsbn());
+
+            // execute the java preparedstatement
+            preparedStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reserveBook(ReservedBook book) {
+        try {
+            String query = "INSERT INTO reservedby VALUES (?,?,?,?);";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, DataManager.getInstance().getLoggedInUser().getSSN());
+            preparedStmt.setInt(2, book.getIsbn());
+            preparedStmt.setDate(3, Date.valueOf(book.getReservationDate()));
+            preparedStmt.setDate(4, Date.valueOf(book.getAvilabledate()));
+
+            // execute the java preparedstatement
+            preparedStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
+    private void updateBookAvailability(BorrowBook book) {
+        try {
+            String query = " UPDATE book SET available = ? WHERE isbn=?;";
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, 1);
+            preparedStmt.setInt(2, book.getIsbn());
+            preparedStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public ArrayList<BorrowBook> fetchBorrowedBooksFromUserID(int userid) {
+        ArrayList<BorrowBook> books = new ArrayList<>();
+        String query = "SELECT * FROM borrowedby WHERE member_member_id = " + userid + ";";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                Date returnDate = rs.getDate("returndate");
+                Date dueDate = rs.getDate("duedate");
+                Date issuedate = rs.getDate("issuedate");
+                String returnD;
+                if (returnDate == null) {
+                    returnD = "not returned";
+                } else {
+                    returnD = returnDate.toString();
+                }
+                int isb = rs.getInt("book_isbn1");
+//                Book book = fetchBook(isb);
+//                books.add(new BorrowBook(book.getIsbn(), book.getTitle(), book.getAuthor(), book.isAvailabe(),
+//                        issuedate.toString(), returnD, dueDate.toString()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+
+    //@A: changes availability into false which means cancel from DB
+    public void updateAvilablity(int isbn, boolean avilable) {
+        int available = 0;
+        if (avilable) {
+            available = 1;
+        }
+        String st_av = "UPDATE book SET available = " + available + " WHERE isbn = " + isbn + ";";
+
+        try {
+            Statement ste = conn.createStatement();
+            ste.executeUpdate(st_av);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateReservation(int isbn, boolean avilable) {
+        int available = 0;
+        if (avilable) {
+            available = 1;
+        }
+        String st_av = "UPDATE book SET reserved = " + available + " WHERE isbn = " + isbn + ";";
+        try {
+            Statement ste = conn.createStatement();
+            ste.executeUpdate(st_av);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     // this is method is to setup my book table to fetch
-    public void setuptable(){
+    public void setuptable() {
         String Table_Name = "book"; //we could return this...
 
         if (conn == null)
@@ -450,10 +611,10 @@ public class DBConnection {
     }
 
     //
-//    public ArrayList<Book> executeQuery(String bookname) {
+//    public ArrayList<Book> getBooks(String bookname) {
 //        String st = "SELECT * FROM book;";
 //        try {
-//            ResultSet resultSet = stmt.executeQuery(st);
+//            ResultSet resultSet = stmt.getBooks(st);
 //            while (resultSet.next()) {
 //                //System.out.println("Start");
 //                if (resultSet.getString(2).contains(bookname) && resultSet.getBoolean(4)) {
@@ -498,50 +659,6 @@ public class DBConnection {
         return false;
     }
 
-    public void setupBorrowedByTable() {
-        String Table_Name = "borrowedby"; //we could return this...
-
-        if (conn == null)
-            conn = connDB();
-
-        if (conn != null) {
-
-            Statement statement = null;
-            // ResultSet resultSet = null;
-
-            try {
-                statement = conn.createStatement();
-                DatabaseMetaData dbm = conn.getMetaData();
-                ResultSet Tables = dbm.getTables(null, null, Table_Name, null);
-
-                // Loop through all result rows and print them.
-                if (Tables.next()) {
-                    System.out.println(" Tables " + Table_Name + " already exist, ready to go ");
-
-                } else {
-                    stmt.execute("CREATE TABLE " + Table_Name + "("
-                            + "   member_SSN VARCHAR (45) primary key, \n"
-                            + "   book_isbn int (11), \n"
-                            + "   due date varchar(45), \n"
-                            + " return date DATE , \n"
-                            + " issuedate DATE  "
-                            + ")");
-
-
-                }
-            } catch (SQLException ex) {
-
-
-                // handle any errors
-                System.out.println("SQLException: " + ex.getMessage() + "setupdatabase");
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
-            } finally {
-
-            }
-        }
-        return;
-    }
 
     private void query(
             String sqlStatement,
@@ -570,28 +687,29 @@ public class DBConnection {
             }
         }
     }
-        private void executeUpdate(String sqlStatement) {
-            if (conn == null)
-                conn = connDB();
 
-            if (conn != null) {
+    private void executeUpdate(String sqlStatement) {
+        if (conn == null)
+            conn = connDB();
 
-                Statement statement = null;
-                ResultSet resultSet = null;
+        if (conn != null) {
 
-                try {
-                    statement = conn.createStatement();
-                    statement.executeUpdate(sqlStatement);
-                } catch (SQLException ex) {
-                    // handle any errors
-                    System.out.println("SQLException: " + ex.getMessage());
-                    System.out.println("SQLState: " + ex.getSQLState());
-                    System.out.println("VendorError: " + ex.getErrorCode());
-                } finally {
-                    closeAll(statement, resultSet);
-                }
+            Statement statement = null;
+            ResultSet resultSet = null;
+
+            try {
+                statement = conn.createStatement();
+                statement.executeUpdate(sqlStatement);
+            } catch (SQLException ex) {
+                // handle any errors
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            } finally {
+                closeAll(statement, resultSet);
             }
         }
+    }
 
 
     private void closeAll(Statement stmt, ResultSet rs) {
@@ -619,10 +737,11 @@ public class DBConnection {
             }
         }
     }
+
     public ArrayList getMemberSSN(String SSN) {
         ArrayList collectionResult = new ArrayList();
 
-        String selectStatement = "SELECT * FROM member WHERE SSN = '"+SSN+"';";
+        String selectStatement = "SELECT * FROM member WHERE SSN = '" + SSN + "';";
 
         query(selectStatement, (resultSet, collection) -> {
             try {
@@ -634,7 +753,7 @@ public class DBConnection {
                     String phonenumber = resultSet.getString("phone_number");
                     String email = resultSet.getString("email");
                     Boolean membertype = resultSet.getBoolean("membertype");
-                    collection.add(new Member(ssn, name, address,phonenumber,email,membertype));
+                    collection.add(new Member(ssn, name, address, phonenumber, email, membertype));
                     break; //As soon as we find ONE result, we're done!
                 }
             } catch (SQLException ex) {
@@ -643,16 +762,17 @@ public class DBConnection {
         }, collectionResult);
         return collectionResult;
     }
+
     public ArrayList getAccounts(String Email, String Password) {
         ArrayList collectionResult = new ArrayList();
 
-        String selectStatement = "SELECT * FROM account WHERE email = '"+Email+ "' and password = '" + Password + "'";
+        String selectStatement = "SELECT * FROM account WHERE email = '" + Email + "' and password = '" + Password + "'";
 
         query(selectStatement, (resultSet, collection) -> {
             try {
                 // Put all result rows in the collection.
                 while (resultSet.next()) {
-                    String email  = resultSet.getString("email");
+                    String email = resultSet.getString("email");
                     String password = resultSet.getString("Password");
                     String memberssn = resultSet.getString("member_SSN");
                     collection.add(new Account(email, password, memberssn));
@@ -665,35 +785,37 @@ public class DBConnection {
         }, collectionResult);
         return collectionResult;
     }
-    public void updateMember(String SSN, String address, String phoneNumber, String email){
-        String sqlStatement = "UPDATE member SET address, phone_number, email = '"+address+"', '"+phoneNumber+"', '"+email+"' WHERE ssn = "+ SSN +";";
+
+    public void updateMember(String SSN, String address, String phoneNumber, String email) {
+        String sqlStatement = "UPDATE member SET address, phone_number, email = '" + address + "', '" + phoneNumber + "', '" + email + "' WHERE ssn = " + SSN + ";";
         executeUpdate(sqlStatement);
 
 
     }
 
-    public  void updateAccount(String Email, String Password, String SSN) {
-        String Sqlstatement = "UPDATE account SET email, password = '"+Email+"', '"+Password+"' WHERE member_SSN = "+ SSN+";";
+    public void updateAccount(String Email, String Password, String SSN) {
+        String Sqlstatement = "UPDATE account SET email, password = '" + Email + "', '" + Password + "' WHERE member_SSN = " + SSN + ";";
         executeUpdate(Sqlstatement);
 
     }
+
     public ArrayList getMemberType(String membertype) {
         ArrayList collectionResult = new ArrayList();
 
-        String selectStatement = "SELECT * FROM member WHERE membertype = "+membertype+ "";
+        String selectStatement = "SELECT * FROM member WHERE membertype = " + membertype + "";
 
         query(selectStatement, (resultSet, collection) -> {
             try {
                 // Put all result rows in the collection.
                 while (resultSet.next()) {
-                    String SSN  = resultSet.getString("email");
+                    String SSN = resultSet.getString("email");
                     String Name = resultSet.getString("Password");
                     String Address = resultSet.getString("member_SSN");
                     String Phone_Number = resultSet.getString("phone_number");
                     String email = resultSet.getString("email");
                     Boolean MemberType = resultSet.getBoolean("membertype");
 
-                    collection.add(new Member(SSN,Name,Address,Phone_Number,email,MemberType));
+                    collection.add(new Member(SSN, Name, Address, Phone_Number, email, MemberType));
                     break; //As soon as we find ONE result, we're done!
 
                 }
@@ -703,6 +825,7 @@ public class DBConnection {
         }, collectionResult);
         return collectionResult;
     }
+
     public static String getUserId() {
         return userId;
     }
@@ -726,24 +849,57 @@ public class DBConnection {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    public void updateBookCatagory(String title,int bookTypeId){
 
-        String st_av = "UPDATE book SET bookcategory_typeid = " + bookTypeId + " WHERE title = '" + title + "'";
-        String st = "SELECT * FROM book;";
+    public ArrayList<BorrowBook> get_Borrowed_History(String SSN) {
+        ArrayList<BorrowBook> tempe = new ArrayList<>();
+
+        String sql = "SELECT book.isbn, book.title, book.author, book.bookcategory_typeid, book.available,book.reserved," +
+                " borrowedby.issue_date, borrowedby.due_date,borrowedby.return_date FROM book, borrowedby " +
+                "WHERE borrowedby.member_SSN = '" + SSN + "'" +
+                "AND book.isbn = borrowedby.book_isbn;";
+
 
         try {
-            Statement ste = connection.createStatement();
-            ResultSet resultSet = ste.executeQuery(st);
+
+
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                if (resultSet.getString(2).equalsIgnoreCase(title)) {
-                    Statement stet = connDB().createStatement();
-                    stet.executeUpdate(st_av);
+
+                System.out.println("Found result!");
+                boolean available = false;
+                boolean reserved = false;
+
+                if (resultSet.getInt("book.available") == 1) {
+                    available = true;
                 }
+
+                if (resultSet.getInt("book.reserved") == 1) {
+                    reserved = true;
+                }
+
+                tempe.add(new BorrowBook(
+                        resultSet.getInt("isbn"),
+                        resultSet.getString("title"),
+                        resultSet.getString("author"),
+                        resultSet.getInt("bookcategory_typeid"),
+                        available, reserved,
+                        resultSet.getDate("issue_date").toString(),
+                        resultSet.getDate("due_date").toString(),
+                        resultSet.getDate("return_date").toString()));
+
+            }
+
+            System.out.println("*********** ########### ***************");
+            for (int i = 0; i < tempe.size(); i++) {
+                System.out.println(tempe.get(i).getDueDate());
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return tempe;
     }
 }
 

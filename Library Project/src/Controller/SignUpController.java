@@ -4,14 +4,15 @@ package Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import sample.AbstractController;
 import sample.DBConnection;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -89,14 +90,13 @@ public class SignUpController extends AbstractController implements Initializabl
 
 
         DBConnection connection = new DBConnection();
-        connection.signUp(ssn, name, address, phonenumber, email, password);
+        connection.signUp(ssn, name, address, phonenumber, email, password, 0);
         alert("User registered successfully", Alert.AlertType.CONFIRMATION);
-        try {
-            // change scene
-            changeScene(event, "/view/StartMenu.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // change scene
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
+
     }
 
     @Override

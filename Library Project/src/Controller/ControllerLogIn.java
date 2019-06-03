@@ -1,5 +1,10 @@
 package Controller;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import model.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +17,7 @@ import sample.DBConnection;
 import sample.Main;
 import sample.SceneData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ControllerLogIn {
@@ -69,6 +75,21 @@ public class ControllerLogIn {
 
         Main.loadLibraryView();
 
+    }
+    public void forgotPassword(ActionEvent event){
+
+        FXMLLoader loader = new FXMLLoader();
+        //loader.setLocation(getClass().getResource("BookList.fxml"));
+        Parent bView = null;
+        try {
+            bView = loader.load(getClass().getResource("/view/forgotPassVIew.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(bView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
     public void registerButtonPressed() {

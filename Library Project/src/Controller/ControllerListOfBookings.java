@@ -4,7 +4,9 @@ package Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Book;
@@ -15,7 +17,6 @@ import sample.DBConnection;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class ControllerListOfBookings {
 
@@ -41,7 +42,8 @@ public class ControllerListOfBookings {
     ObservableList<Book> List = FXCollections.observableArrayList();
     private Member member;
 
-   DBConnection dbhandler;
+    DBConnection dbhandler;
+
     public void initialize() throws IOException {
         //anchorPane.setMaxSize();
         // Creat an obserable list of issue collection
@@ -62,7 +64,7 @@ public class ControllerListOfBookings {
         // String MemberSSN;
 
 
-        String qu = "SELECT * FROM borrowedby";
+        String qu = "SELECT * FROM borrowedby  ORDER BY due_date ASC";
         ResultSet resultSet = handler.ExecuteQuery(qu);
         try {
             while (resultSet.next()) {
@@ -84,16 +86,15 @@ public class ControllerListOfBookings {
             e.printStackTrace();
         }
     }
+
     private void initcolum() {
 
         bookisbncol.setCellValueFactory(new PropertyValueFactory<>("book_ISBN"));
         memberssncol.setCellValueFactory(new PropertyValueFactory<>("member_SSN"));
-      duedatecol.setCellValueFactory(new PropertyValueFactory<>("due_Date"));
+        duedatecol.setCellValueFactory(new PropertyValueFactory<>("due_Date"));
         returndatecol.setCellValueFactory(new PropertyValueFactory<>("return_Date"));
         issuedatecol.setCellValueFactory(new PropertyValueFactory<>("issue_Date"));
     }
-
-
 
 
 }

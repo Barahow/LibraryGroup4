@@ -86,6 +86,7 @@ public class LoginController extends AbstractController implements Initializable
         um = usernamem.getText();
         pm = passm.getText();
         name = um;
+        dbConnection = new DBConnection();
         //long time = System.nanoTime();
         //label.setDisable(true);
 
@@ -148,7 +149,7 @@ public class LoginController extends AbstractController implements Initializable
            Statement statement = connection.createStatement();
            //preparedStatement.setString(1, um);
            //preparedStatement.setString(2, pm);
-           resultSet = statement.executeQuery(sqlMem);
+           resultSet = statement.getBooks(sqlMem);
 
            while(resultSet.next()){
                if(um.equals(resultSet.getString("username"))){
@@ -249,6 +250,22 @@ public class LoginController extends AbstractController implements Initializable
         }
         anchorpin.setContent(gridPane);
 
+    }
+
+    public void forgotPassword(ActionEvent event){
+
+        FXMLLoader loader = new FXMLLoader();
+        //loader.setLocation(getClass().getResource("BookList.fxml"));
+        Parent bView = null;
+        try {
+            bView = loader.load(getClass().getResource("/view/forgotPassVIew.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(bView);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
 

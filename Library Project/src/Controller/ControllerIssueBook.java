@@ -158,13 +158,7 @@ public class ControllerIssueBook {
                 value = true;
             }
 
-            if (value == false) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Error, Couldn't find any book with that name!");
-                alert.showAndWait();
-                return;
-            }
+            if (ControllerSearchBook.errorHandling(value)) return;
 
 
         } catch (Exception ex) {

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<AnchorPane prefHeight="481.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="72.0" layoutY="59.0" prefHeight="480.0" prefWidth="688.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,6 +25,8 @@
                      </font>
                   </PasswordField>
                   <Button fx:id="signupm" layoutX="189.0" layoutY="306.0" mnemonicParsing="false" onAction="#signUp" prefHeight="38.0" prefWidth="135.0" style="-fx-background-radius: 10; -fx-background-color: #29B6F6;" text="Sign up" />
+                  <Button layoutX="114.0" layoutY="366.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: transparent;" text="Forgot password?" underline="true" />
+
                   <Button fx:id="signinm" layoutX="26.0" layoutY="306.0" mnemonicParsing="false" onAction="#signIn" prefHeight="38.0" prefWidth="135.0" style="-fx-background-radius: 10; -fx-background-color: #29B6F6;" text="Sign in" />
                   <Label layoutX="169.0" layoutY="317.0" text="or" />
                   <Label fx:id="forgotpassm" layoutX="25.0" layoutY="361.0" prefHeight="17.0" prefWidth="298.0" />
