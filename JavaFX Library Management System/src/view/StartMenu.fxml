@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="605.0" prefWidth="700.0" style="-fx-background-color: #2F4F4F&#10;&#10;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
+  <children>
+    <AnchorPane layoutX="260.0" layoutY="34.0" prefHeight="605.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane layoutX="0.0" prefHeight="571.0" prefWidth="200.0" style="-fx-background-color: #2F4F4F&#10;&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <children>
+            <TabPane prefHeight="442.0" prefWidth="509.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="searchcatalog" contentDisplay="LEFT" graphicTextGap="40.0" layoutX="1.0" layoutY="120.0" mnemonicParsing="false" onAction="#loadSearchBookCatalog" prefHeight="57.0" prefWidth="171.0" text="Search Catalog" textAlignment="LEFT" textOverrun="ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="12.0" fx:id="x21" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x31" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/101791-200.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="login" contentDisplay="LEFT" graphicTextGap="40.0" layoutY="50.0" mnemonicParsing="false" onAction="#logIn" prefHeight="57.0" prefWidth="171.0" text="             Log in" textAlignment="LEFT" textOverrun="ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="12.0" fx:id="x22" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x32" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/img_558606.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+          </children>
+          <effect>
+            <DropShadow />
+          </effect>
+        </AnchorPane>
+      </children>
+    </AnchorPane>
+    <MenuBar layoutX="0.0" layoutY="0.0" minHeight="21.999900000002526" prefHeight="34.00010681152344" prefWidth="699.0000999999975">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Delete" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </children>
+</AnchorPane>

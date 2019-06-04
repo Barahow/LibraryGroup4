@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="wlc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="763.0" style="-fx-background-color: #795548;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UserInfoController">
+   <children>
+      <BorderPane layoutX="133.0" layoutY="107.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="email" prefHeight="30.0" prefWidth="68.0" text="email" />
+                  <Label fx:id="name" prefHeight="33.0" prefWidth="31.0" text="name" />
+                  <Label text="Welcome to Library Mangement">
+                     <font>
+                        <Font size="39.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+         <left>
+            <VBox alignment="TOP_CENTER" prefHeight="403.0" prefWidth="199.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button contentDisplay="LEFT" graphicTextGap="40.0" mnemonicParsing="false" onAction="#loadSearchBook" prefHeight="57.0" prefWidth="169.0" text="Search Book" textAlignment="LEFT" textOverrun="ELLIPSIS">
+                     <font>
+                        <Font size="12.0" fx:id="x2" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x3" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/101791-200.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button contentDisplay="LEFT" graphicTextGap="40.0" mnemonicParsing="false" onAction="#loadBookCatalog" prefHeight="57.0" prefWidth="171.0" text="Book Catalog" textAlignment="LEFT" textOverrun="ELLIPSIS">
+                     <font>
+                        <Font size="12.0" fx:id="x21" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x4" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/img_558606.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button contentDisplay="LEFT" graphicTextGap="40.0" mnemonicParsing="false" onAction="#loadIssueBook" prefHeight="57.0" prefWidth="171.0" text="Borrow Book" textAlignment="LEFT" textOverrun="ELLIPSIS">
+                     <font>
+                        <Font size="12.0" fx:id="x22" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x41" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="34.0000114440918" fitWidth="34.0000114440918" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/issue-chapter-books-library-512.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button cancelButton="false" contentDisplay="LEFT" defaultButton="false" graphicTextGap="40.0" minHeight="49.0" mnemonicParsing="false" onAction="#loadBookView" prefHeight="49.0" prefWidth="171.0" text="BookView" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" wrapText="false">
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0" fx:id="x1">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x31" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <font>
+                        <Font size="12.0" fx:id="x23" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="37.0" fitWidth="37.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/search_book-512.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button contentDisplay="LEFT" graphicTextGap="40.0" mnemonicParsing="false" onAction="#loadReturnBook" prefHeight="57.0" prefWidth="171.0" text="Return Book" textAlignment="LEFT" textOverrun="ELLIPSIS">
+                     <font>
+                        <Font size="12.0" fx:id="x24" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Spot pointsAtZ="-100.0" specularExponent="0.0" x="100.0" y="100.0" z="100.0">
+                                 <color>
+                                    <Color blue="1.000" green="1.000" red="0.533" fx:id="x32" />
+                                 </color>
+                              </Light.Spot>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="pdf" mnemonicParsing="false" onAction="#savePdf" prefHeight="45.0" prefWidth="170.0" text="pdf" />
+                  <HBox alignment="CENTER" prefHeight="89.0" prefWidth="179.0">
+                     <children>
+                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logOut" prefHeight="45.0" prefWidth="119.0" style="-fx-background-color: #039BE5; -fx-background-radius: 20;" text="Log out" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="100.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </left>
+         <right>
+            <HBox prefHeight="427.0" prefWidth="21.0" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <HBox prefHeight="24.0" prefWidth="690.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <ScrollPane fx:id="borrowBookScrollPane" prefHeight="403.0" prefWidth="518.0" BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></AnchorPane>
+              </content>
+               <BorderPane.margin>
+                  <Insets left="30.0" top="20.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</AnchorPane>
