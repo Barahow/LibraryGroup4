@@ -46,7 +46,7 @@ public class SearchCatalogController implements Initializable {
     ArrayList<Book> myBooks;
     ArrayList<BorrowBook> myBorrowedBooks = new ArrayList<>();
 
-
+//THis methode is used to get books from dB.
     public void changeBookList(ActionEvent event) throws IOException, SQLException {
         condi = true;
 
