@@ -62,7 +62,7 @@ public class UserInfoController implements Initializable {
 
         if (BookListController.borrowHistory) {
             borrowSelection = (ArrayList) BookListController.myBorrowedBooks;
-            System.out.println("borrowSelection: " + borrowSelection);
+            System.out.println("borrowSelection:----- " + borrowSelection.get(1).getTitle());
             System.out.println(DBConnection.getUserId());
 
             try {
@@ -95,6 +95,8 @@ public class UserInfoController implements Initializable {
                 System.out.println("Error in updating borrow");
             }
 
+            System.out.println(DBConnection.getUserId() + " &&&&&&&&&&&&66");
+
         } else if (!BookListController.borrowHistory) {
 
 
@@ -108,11 +110,15 @@ public class UserInfoController implements Initializable {
             for (int i=0;i<reserveSelection.size();i++){
                 db.reserveBook(reserveSelection.get(i));
                 db.updateReservation(reserveSelection.get(i).getIsbn(),true);
+
+                System.out.println(reserveSelection.get(i).getTitle()+" ** ::::::");
             }
 
         }else if (!BookListController.reserv_controll){
             //Bring it from database.
+
             reserveSelection =db.get_Reservation(DBConnection.getUserId());
+            //System.out.println(reserveSelection.get(0).getTitle()+" ** ::::::");
 
         }
 

@@ -104,7 +104,7 @@ public class LoginController extends AbstractController implements Initializable
                 if (!dbConnection.getAdmin()) {
                     FXMLLoader loader = new FXMLLoader();
                     //loader.setLocation(getClass().getResource("BookList.fxml"));
-                    Parent bView = loader.load(getClass().getResource("/view/userInfo.fxml"));
+                    Parent bView = loader.load(getClass().getResource("../view/userInfo.fxml"));
                     Scene scene = new Scene(bView);
                     Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     window.setScene(scene);

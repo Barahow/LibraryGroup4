@@ -124,11 +124,11 @@ public class DBConnection {
                             available,reserved);
 
                     if(!available){
-                        book = fetchBorrowedBook(book);
+                        //book = fetchBorrowedBook(book);
                     }
 
                     if(reserved){
-                        book = fetchReservedBook(book);
+                        //book = fetchReservedBook(book);
                     }
 
                         books.add(book);

@@ -212,7 +212,9 @@ public class BookListController implements Initializable {
 
         }
 
+        System.out.println("Borrowed --"+myReservedBooks.get(0).getIsbn());
         borrowHistory = true;
+
         Parent list = FXMLLoader.load(getClass().getResource("/view/signIn.fxml"));
         Scene scene = new Scene(list);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
