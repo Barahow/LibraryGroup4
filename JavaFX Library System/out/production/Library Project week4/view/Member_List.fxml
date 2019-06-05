@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootpane" prefHeight="488.9999000000025" prefWidth="862.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller.viewListOfMembers">
+  <children>
+    <TableView id="tableview" fx:id="myTable" disable="false" editable="false" focusTraversable="true" prefHeight="438.99980000000505" prefWidth="833.0000999999975" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <columns>
+        <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="216.0" resizable="true" text="Member SSN" fx:id="ssncol" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="118.0" text="Name" fx:id="namecol" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="133.0" resizable="true" text="Address" fx:id="addresscol" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="139.0" resizable="true" sortable="true" text="PhoneNumber" fx:id="Phonecol" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="114.0" resizable="true" sortable="true" text="Email" fx:id="emailcol" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="133.0" resizable="true" text="Member Type" fx:id="membertypecol" />
+      </columns>
+      <contextMenu>
+        <ContextMenu>
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#handleDeleteMember" text="Delete" />
+          </items>
+        </ContextMenu>
+      </contextMenu>
+    </TableView>
+  </children>
+</AnchorPane>
